@@ -5,12 +5,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:connectivity/connectivity.dart';
 
 class AppController extends GetxController {
+  RxBool firstStart = true.obs;
+
   @override
   Future<void> onInit() async {
     // TODO: implement onInit
-    if (await checkInternet()) {
-      await loadRegions();
-    }
+    if (await checkInternet()) {}
     super.onInit();
   }
 
@@ -24,19 +24,5 @@ class AppController extends GetxController {
       print('Нет интернета');
       return false;
     }
-  }
-
-  Future<void> loadRegions() async {
-    print('Загрузка регионов');
-    final result = await Get.find<Directus>().items('regions').readMany(
-          query: Query(
-              sort: ['sort'],
-              fields: ['id', 'name', 'parent_id', 'country_id', 'sort']),
-        );
-
-    List<Region> regions =
-        List<Region>.from(result.data.map((x) => Region.fromJson(x)));
-    Get.find<SharedPreferences>().setString('regions', Region.encode(regions));
-    print('Загрузка регионов завершена...');
   }
 }

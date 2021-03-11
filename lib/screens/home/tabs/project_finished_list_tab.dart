@@ -38,6 +38,7 @@ class ProjectFinishedListTab extends StatelessWidget {
             child: ListView.builder(
               controller: controller.scroll,
               shrinkWrap: true,
+              physics: AlwaysScrollableScrollPhysics(),
               itemCount:
                   ["", null, false, 0].contains(controller.projects?.length)
                       ? 0

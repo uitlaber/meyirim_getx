@@ -37,6 +37,7 @@ class ReportListTab extends StatelessWidget {
             child: ListView.builder(
               controller: controller.scroll,
               shrinkWrap: true,
+              physics: AlwaysScrollableScrollPhysics(),
               itemCount:
                   ["", null, false, 0].contains(controller.reports?.length)
                       ? 0

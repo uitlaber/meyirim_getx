@@ -5,7 +5,7 @@ import 'package:meyirim/core/utils.dart';
 import 'package:meyirim/models/fond.dart';
 import 'package:meyirim/models/region.dart';
 
-class FondCard extends StatefulWidget {
+class FondCard extends StatelessWidget {
   final Fond fond;
   final EdgeInsetsGeometry padding;
   final List<Widget> actions;
@@ -13,25 +13,18 @@ class FondCard extends StatefulWidget {
   const FondCard({Key key, this.fond, this.padding, this.actions})
       : super(key: key);
 
-  @override
-  _FondCardState createState() => _FondCardState();
-}
-
-class _FondCardState extends State<FondCard> {
-  Region region;
-
-  @override
-  void initState() {
-    getRegion();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   getRegion();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Padding(
-          padding: widget.padding ?? EdgeInsets.all(10),
+          padding: padding ?? EdgeInsets.all(10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -42,7 +35,7 @@ class _FondCardState extends State<FondCard> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(100.0),
                       child: CachedNetworkImage(
-                        imageUrl: widget.fond.getAvatar,
+                        imageUrl: fond.getAvatar,
                         width: 50,
                         height: 50,
                       ),
@@ -55,11 +48,11 @@ class _FondCardState extends State<FondCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.fond.title,
+                          fond.title,
                           style: TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 16),
                         ),
-                        Text(region?.name ?? 'Не выбрано',
+                        Text(fond.region.name ?? 'Не выбрано',
                             style: TextStyle(
                                 color: HexColor('#999999'), fontSize: 11)),
                       ],
@@ -67,7 +60,7 @@ class _FondCardState extends State<FondCard> {
                   ],
                 ),
               ),
-              ...widget.actions ?? []
+              ...actions ?? []
               // IconButton(
               //     icon: Icon(
               //       Icons.chevron_right,
@@ -81,9 +74,5 @@ class _FondCardState extends State<FondCard> {
         Divider(height: 0)
       ],
     );
-  }
-
-  getRegion() async {
-    region = await widget.fond.getRegion();
   }
 }

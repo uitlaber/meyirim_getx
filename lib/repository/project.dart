@@ -9,7 +9,7 @@ class ProjectRepository {
       final sdk = Get.find<Directus>();
       result = await sdk.items('projects').readMany(
           query: Query(
-              fields: ['*.*'],
+              fields: ['*.*', 'fond.region_id.*'],
               limit: limit,
               offset: offset,
               meta: Meta(filterCount: filterCount)),
@@ -33,7 +33,7 @@ class ProjectRepository {
       final sdk = Get.find<Directus>();
       result = await sdk.items('projects').readMany(
             query: Query(
-                fields: ['*.*'],
+                fields: ['*.*', 'fond.region_id.*'],
                 limit: limit,
                 offset: offset,
                 customParams: {'search': query.toLowerCase()},

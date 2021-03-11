@@ -1,21 +1,18 @@
 import 'package:meyirim/core/config.dart' as config;
 import 'package:meyirim/models/region.dart';
-import 'package:meyirim/repository/region.dart';
 
 class Fond {
-  Fond({
-    this.firstName,
-    this.regionId,
-    this.id,
-    this.email,
-    this.title,
-    this.description,
-    this.location,
-    this.avatar,
-  });
+  Fond(
+      {this.firstName,
+      this.id,
+      this.email,
+      this.title,
+      this.description,
+      this.location,
+      this.avatar,
+      this.region});
 
   dynamic firstName;
-  int regionId;
   String id;
   String email;
   String title;
@@ -26,7 +23,7 @@ class Fond {
 
   factory Fond.fromJson(Map<String, dynamic> json) => Fond(
         firstName: json["first_name"],
-        regionId: json["region_id"],
+        region: Region.fromJson(json["region_id"]),
         id: json["id"],
         email: json["email"],
         title: json["title"],
@@ -37,7 +34,7 @@ class Fond {
 
   Map<String, dynamic> toJson() => {
         "first_name": firstName,
-        "region_id": regionId,
+        "region": region.toJson(),
         "id": id,
         "email": email,
         "title": title,
@@ -48,10 +45,5 @@ class Fond {
 
   get getAvatar {
     return config.API_URL + '/assets/' + avatar;
-  }
-
-  Future<Region> getRegion() async {
-    final regionRepository = RegionRepository();
-    return regionRepository.findRegion(this.regionId);
   }
 }

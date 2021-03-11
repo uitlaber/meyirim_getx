@@ -6,7 +6,7 @@ import 'package:meyirim/repository/project.dart';
 class ProjectFinishedListController extends GetxController with ScrollMixin {
   ProjectRepository _repository = new ProjectRepository();
 
-  List<Project> projects = [];
+  RxList<Project> projects = <Project>[].obs;
   RxBool isLoading = false.obs;
   RxBool hasError = false.obs;
   int offset = 0;
@@ -21,7 +21,7 @@ class ProjectFinishedListController extends GetxController with ScrollMixin {
 
   @override
   void onClose() {
-    projects = [];
+    projects.clear();
     isLoading.value = false;
     hasError.value = false;
     offset = 0;
@@ -41,7 +41,7 @@ class ProjectFinishedListController extends GetxController with ScrollMixin {
   }
 
   Future<void> refreshList() async {
-    projects = [];
+    projects.clear();
     isLoading.value = false;
     hasError.value = false;
     offset = 0;

@@ -1,23 +1,21 @@
 import 'package:directus/directus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:meyirim/models/project.dart';
 import 'package:meyirim/repository/project.dart';
 
-class ProjectListController extends GetxController with ScrollMixin {
+class SearchController extends GetxController with ScrollMixin {
   ProjectRepository _repository = new ProjectRepository();
+  final searchController = TextEditingController();
 
-  RxList<Project> projects = <Project>[].obs;
+  RxString query = ''.obs;
+  // ignore: deprecated_member_use
+  RxList<Project> projects = List<Project>().obs;
   RxBool isLoading = false.obs;
   RxBool hasError = false.obs;
   int offset = 0;
   int limit = 3;
   int total = 4;
-
-  @override
-  Future<void> onInit() async {
-    super.onInit();
-    await fetchProject();
-  }
 
   @override
   void onClose() {
@@ -29,33 +27,23 @@ class ProjectListController extends GetxController with ScrollMixin {
     super.onClose();
   }
 
-  Future<void> onEndScroll() async {
-    offset = offset + limit;
-    if (projects.length < total) await fetchProject();
-  }
-
   Future<void> refreshList() async {
     projects.clear();
     isLoading.value = false;
     hasError.value = false;
     offset = 0;
     total = 4;
-    await fetchProject();
+    searchProjects();
   }
 
-  Future<void> onTopScroll() {
-    // offset = 0;
-    // projects = [];
-    // fetchProject();
-  }
-
-  Future<void> fetchProject() async {
+  Future<void> searchProjects() async {
+    if (query.value?.isEmpty ?? true) return;
     isLoading.value = true;
     DirectusListResponse result =
-        await _repository.fetchProjects(limit, offset, false);
+        await _repository.searchProjects(query, limit, offset, false);
     try {
       if (result != null) {
-        var newProjects = List<Project>.from(result.data.map((x) {
+        final newProjects = List<Project>.from(result.data.map((x) {
           return Project.fromJson(x);
         }));
         projects.addAll(newProjects);
@@ -66,5 +54,17 @@ class ProjectListController extends GetxController with ScrollMixin {
       hasError.value = true;
     }
     isLoading.value = false;
+  }
+
+  @override
+  Future<void> onEndScroll() async {
+    offset = offset + limit;
+    if (projects.length < total) await searchProjects();
+  }
+
+  @override
+  Future<void> onTopScroll() {
+    // TODO: implement onTopScroll
+    throw UnimplementedError();
   }
 }

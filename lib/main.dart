@@ -9,7 +9,9 @@ import 'package:meyirim/screens/home.dart';
 import 'package:meyirim/screens/no_internet.dart';
 import 'package:meyirim/screens/project.dart';
 import 'package:meyirim/screens/report.dart';
+import 'package:meyirim/screens/search.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'binding/search_binding.dart';
 import 'core/service/directus.dart';
 import 'core/ui.dart';
 import 'core/utils.dart';
@@ -22,14 +24,8 @@ Future<void> main() async {
 
 Future<void> initServices() async {
   print('starting services ...');
-
   await Get.putAsync<SharedPreferences>(
       () async => await SharedPreferences.getInstance());
-
-  Get.putAsync<SharedPreferences>(() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs;
-  }, tag: 'tagsAreEverywhere', permanent: true);
 
   await Get.putAsync<Directus>(() => DirectusAPI().init());
   print('All services started...');
@@ -49,17 +45,34 @@ class MyApp extends StatelessWidget {
       locale:
           Locale('ru', 'RU'), // translations will be displayed in that locale
       fallbackLocale: Locale('ru', 'RU'),
+      defaultTransition: null,
       getPages: [
+        //Главная
         GetPage(
-            name: "/home", page: () => HomeScreen(), binding: HomeBinding()),
+            name: "/home",
+            page: () => HomeScreen(),
+            transition: Transition.noTransition,
+            binding: HomeBinding()),
+        //Страница проекта
         GetPage(
             name: "/project",
             page: () => ProjectScreen(),
+            transition: Transition.downToUp,
+            transitionDuration: Duration(milliseconds: 300),
             binding: ProjectBinding()),
+        //Страница отчета
         GetPage(
           name: "/report",
+          transition: Transition.downToUp,
+          transitionDuration: Duration(milliseconds: 300),
           page: () => ReportScreen(),
         ),
+        //Страница поиска
+        GetPage(
+            name: "/search",
+            transition: Transition.noTransition,
+            page: () => SearchScreen(),
+            binding: SearchBinding()),
         GetPage(name: "/no_internet", page: () => NoInternetScreen()),
       ],
       initialBinding: AppBinding(),

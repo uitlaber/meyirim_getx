@@ -6,7 +6,7 @@ import 'package:meyirim/repository/report.dart';
 class ReportListController extends GetxController with ScrollMixin {
   ReportRepository _repository = new ReportRepository();
 
-  List<Report> reports = [];
+  RxList<Report> reports = <Report>[].obs;
   RxBool isLoading = false.obs;
   RxBool hasError = false.obs;
   int offset = 0;
@@ -21,7 +21,7 @@ class ReportListController extends GetxController with ScrollMixin {
 
   @override
   void onClose() {
-    reports = [];
+    reports.clear();
     isLoading.value = false;
     hasError.value = false;
     offset = 0;
@@ -41,7 +41,7 @@ class ReportListController extends GetxController with ScrollMixin {
   }
 
   Future<void> refreshList() async {
-    reports = [];
+    reports.clear();
     isLoading.value = false;
     hasError.value = false;
     offset = 0;
