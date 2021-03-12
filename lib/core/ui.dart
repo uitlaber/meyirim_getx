@@ -7,6 +7,7 @@ class UIColor {
   static Color gray = HexColor('#F2F2F7');
   static Color red = HexColor('#FF2D55');
   static Color black = HexColor('#182B44');
+  static Color textGray = HexColor('#333333');
 }
 
 InputDecoration uiInputDecoration({hintText: '', EdgeInsetsGeometry padding}) {
@@ -39,11 +40,8 @@ Widget uiButton({VoidCallback onPressed, String text}) {
     child: SizedBox(
       width: double.infinity,
       height: 50.0,
-      child: RaisedButton(
-        color: HexColor('#00748A'),
-        textColor: Colors.white,
+      child: ElevatedButton(
         onPressed: onPressed,
-        elevation: 0,
         child: Text(
           text,
           style: TextStyle(

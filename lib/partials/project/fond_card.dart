@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meyirim/core/utils.dart';
 import 'package:meyirim/models/fond.dart';
-import 'package:meyirim/models/region.dart';
 
 class FondCard extends StatelessWidget {
   final Fond fond;

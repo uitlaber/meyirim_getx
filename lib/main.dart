@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meyirim/binding/app_binding.dart';
 import 'package:meyirim/binding/home_binding.dart';
+import 'package:meyirim/binding/profile_binding.dart';
 import 'package:meyirim/binding/project_binding.dart';
 import 'package:meyirim/core/messages.dart';
 import 'package:meyirim/screens/home.dart';
 import 'package:meyirim/screens/no_internet.dart';
+import 'package:meyirim/screens/profile.dart';
 import 'package:meyirim/screens/project.dart';
 import 'package:meyirim/screens/report.dart';
 import 'package:meyirim/screens/search.dart';
@@ -53,6 +55,21 @@ class MyApp extends StatelessWidget {
             page: () => HomeScreen(),
             transition: Transition.noTransition,
             binding: HomeBinding()),
+
+        //Страница поиска
+        GetPage(
+            name: "/search",
+            transition: Transition.noTransition,
+            page: () => SearchScreen(),
+            binding: SearchBinding()),
+
+        //Страница профиля
+        GetPage(
+            name: "/profile",
+            transition: Transition.noTransition,
+            page: () => ProfileScreen(),
+            binding: ProfileBinding()),
+
         //Страница проекта
         GetPage(
             name: "/project",
@@ -60,6 +77,7 @@ class MyApp extends StatelessWidget {
             transition: Transition.downToUp,
             transitionDuration: Duration(milliseconds: 300),
             binding: ProjectBinding()),
+
         //Страница отчета
         GetPage(
           name: "/report",
@@ -67,12 +85,7 @@ class MyApp extends StatelessWidget {
           transitionDuration: Duration(milliseconds: 300),
           page: () => ReportScreen(),
         ),
-        //Страница поиска
-        GetPage(
-            name: "/search",
-            transition: Transition.noTransition,
-            page: () => SearchScreen(),
-            binding: SearchBinding()),
+
         GetPage(name: "/no_internet", page: () => NoInternetScreen()),
       ],
       initialBinding: AppBinding(),

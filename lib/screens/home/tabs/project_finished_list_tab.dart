@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meyirim/core/ui.dart';
 import 'package:meyirim/core/utils.dart';
 import 'package:meyirim/partials/project/card.dart';
 import 'package:meyirim/screens/home/controller/project_finished_list_controller.dart';
@@ -23,8 +24,11 @@ class ProjectFinishedListTab extends StatelessWidget {
                 ),
                 SizedBox(width: 10),
                 Text(
-                  'Не удалось загрузить проекты \nВозможно нет интернета',
-                  style: TextStyle(color: HexColor('#999999')),
+                  'Не удалось загрузить проекты'.tr,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      color: UIColor.textGray),
                 )
               ],
             ),
@@ -66,7 +70,11 @@ class ProjectFinishedListTab extends StatelessWidget {
                 child: Center(
                   child: Container(
                       padding: EdgeInsets.all(10),
-                      child: Text('Нет завершенных проектов'.tr)),
+                      child: Text('Нет завершенных проектов'.tr,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              color: UIColor.textGray))),
                 ),
               ),
             ),

@@ -15,7 +15,6 @@ class ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(project.getPhoto(0));
     return InkWell(
       onTap: () => Get.toNamed('/project', arguments: {'project': project}),
       child: Container(

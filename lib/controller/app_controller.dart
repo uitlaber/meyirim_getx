@@ -1,11 +1,13 @@
 import 'package:directus/directus.dart';
 import 'package:get/get.dart';
-import 'package:meyirim/models/region.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:meyirim/models/user.dart';
 
 class AppController extends GetxController {
   RxBool firstStart = true.obs;
+  RxBool isLogged = false.obs;
+  Directus sdk = Get.find<Directus>();
+  DirectusUser user;
 
   @override
   Future<void> onInit() async {
@@ -24,5 +26,29 @@ class AppController extends GetxController {
       print('Нет интернета');
       return false;
     }
+  }
+
+  bool checkAuth() {
+    final result = sdk.auth.isLoggedIn;
+    isLogged.value = result;
+    return result;
+  }
+
+  Future<void> login() async {
+    print('Login');
+    await sdk.auth.login(email: 'devillomsoft@gmail.com', password: '100102');
+    isLogged.value = true;
+    userInfo();
+  }
+
+  Future<void> logout() async {
+    print('Logout');
+    await sdk.auth.logout();
+    isLogged.value = false;
+  }
+
+  Future<void> userInfo() async {
+    DirectusResponse<DirectusUser> result = await sdk.auth.currentUser?.read();
+    user = result.data;
   }
 }

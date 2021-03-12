@@ -12,7 +12,6 @@ class Donation {
     this.amount,
     this.dateCreated,
     this.id,
-    this.amountNet,
     this.dateUpdated,
     this.referalDeviceCode,
     this.paymentId,
@@ -24,7 +23,6 @@ class Donation {
   double amount;
   DateTime dateCreated;
   int id;
-  double amountNet;
   DateTime dateUpdated;
   String referalDeviceCode;
   String paymentId;
@@ -36,7 +34,6 @@ class Donation {
         amount: double.parse(json["amount"]),
         dateCreated: DateTime.parse(json["date_created"]),
         id: json["id"],
-        amountNet: double.parse(json["amount_net"]),
         dateUpdated: DateTime.parse(json["date_updated"]),
         referalDeviceCode: json["referal_device_code"],
         paymentId: json["payment_id"],
@@ -49,7 +46,6 @@ class Donation {
         "amount": amount,
         "date_created": dateCreated.toIso8601String(),
         "id": id,
-        "amount_net": amountNet,
         "date_updated": dateUpdated.toIso8601String(),
         "referal_device_code": referalDeviceCode,
         "payment_id": paymentId,

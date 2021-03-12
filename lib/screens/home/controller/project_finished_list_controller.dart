@@ -38,6 +38,7 @@ class ProjectFinishedListController extends GetxController with ScrollMixin {
     // offset = 0;
     // projects = [];
     // fetchProject();
+    return null;
   }
 
   Future<void> refreshList() async {
@@ -54,13 +55,11 @@ class ProjectFinishedListController extends GetxController with ScrollMixin {
     DirectusListResponse result =
         await _repository.fetchProjects(limit, offset, true);
     try {
-      if (result != null) {
-        var newProjects = List<Project>.from(result.data.map((x) {
-          return Project.fromJson(x);
-        }));
-        projects.addAll(newProjects);
-        total = result.meta.filterCount;
-      }
+      var newProjects = List<Project>.from(result.data.map((x) {
+        return Project.fromJson(x);
+      }));
+      projects.addAll(newProjects);
+      total = result.meta.filterCount;
     } catch (e) {
       print(e);
       hasError.value = true;

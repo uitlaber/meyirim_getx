@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:meyirim/core/ui.dart';
 import 'package:meyirim/core/utils.dart';
 import 'package:meyirim/partials/bottom_nav.dart';
 import 'package:meyirim/partials/project/card.dart';
@@ -11,37 +13,54 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: UIColor.gray,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80.0),
         child: AppBar(
           leading: null,
           toolbarHeight: 80,
           title: Container(
-            child: TextField(
-                controller: controller.searchController,
-                cursorHeight: 3.2,
-                onSubmitted: (String value) {
-                  controller.projects.clear();
-                  controller.query.value = value;
-                  controller.searchProjects();
-                },
-                decoration: InputDecoration(
-                  hintText: 'Поиск проектов',
-                  fillColor: Colors.white,
-                  filled: true,
-                  prefixIcon: Icon(Icons.search),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      controller.query.value = '';
-                      controller.searchController.clear();
-                      controller.refreshList();
-                    },
-                    icon: Icon(Icons.clear),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 45,
+                    child: TextField(
+                        controller: controller.searchController,
+                        onSubmitted: (String value) {
+                          controller.projects.clear();
+                          controller.query.value = value;
+                          controller.searchProjects();
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Поиск проектов',
+                          fillColor: Colors.white,
+                          filled: true,
+                          prefixIcon: Icon(Icons.search, size: 30),
+                          contentPadding: EdgeInsets.all(4),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              borderSide: new BorderSide(color: Colors.white)),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              borderSide: new BorderSide(color: Colors.white)),
+                        )),
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                )),
+                ),
+                SizedBox(width: 10),
+                InkWell(
+                  onTap: () {
+                    controller.projects.clear();
+                    controller.query.value = '';
+                    controller.searchController.clear();
+                  },
+                  child: SvgPicture.asset('assets/icon/clear.svg',
+                      width: 40, height: 40),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -60,7 +79,7 @@ class SearchScreen extends StatelessWidget {
                   ),
                   SizedBox(width: 10),
                   Text(
-                    'Не удалось загрузить проекты \nВозможно нет интернета',
+                    'Не удалось загрузить проекты',
                     style: TextStyle(color: HexColor('#999999')),
                   )
                 ],
@@ -96,7 +115,9 @@ class SearchScreen extends StatelessWidget {
                       child: CircularProgressIndicator()),
                 ),
               ),
-            if (controller.isLoading.isFalse && controller.projects.length == 0)
+            if (controller.isLoading.isFalse &&
+                controller.query.isEmpty &&
+                controller.projects.length == 0)
               InkWell(
                 onTap: () => controller.refreshList(),
                 child: Container(
@@ -105,7 +126,40 @@ class SearchScreen extends StatelessWidget {
                         padding: EdgeInsets.all(10),
                         child: Text(
                             'Введите наименование проекта,\n или текст'.tr,
-                            textAlign: TextAlign.center)),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                color: UIColor.textGray))),
+                  ),
+                ),
+              ),
+            if (controller.isLoading.isFalse &&
+                controller.query.isNotEmpty &&
+                controller.projects.length == 0)
+              InkWell(
+                onTap: () => controller.refreshList(),
+                child: Container(
+                  child: Center(
+                    child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text('Ничего не найдено'.tr,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    color: UIColor.textGray)),
+                            SizedBox(height: 10),
+                            Text('Попробуйте изменить условия поиска.'.tr,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    color: UIColor.textGray))
+                          ],
+                        )),
                   ),
                 ),
               ),

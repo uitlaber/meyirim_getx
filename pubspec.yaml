@@ -76,6 +76,9 @@ flutter:
     - assets/icon/home.svg
     - assets/icon/search.svg
     - assets/icon/user.svg
+    - assets/icon/profile-user.svg
+    - assets/icon/edit.svg
+    - assets/icon/clear.svg
     - assets/icon/no-wifi.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see

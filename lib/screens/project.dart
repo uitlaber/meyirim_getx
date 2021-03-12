@@ -43,10 +43,12 @@ class ProjectScreen extends StatelessWidget {
                   padding: EdgeInsets.all(10),
                   actions: [
                     IconButton(
-                        onPressed: () {
-                          shareProject(project);
-                        },
-                        icon: Icon(Icons.share))
+                      onPressed: () {
+                        shareProject(project);
+                      },
+                      icon: Icon(Icons.share),
+                      color: UIColor.blue,
+                    )
                   ],
                 ),
                 Padding(

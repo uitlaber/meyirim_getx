@@ -5,8 +5,6 @@ import 'package:meyirim/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
 
-import 'directus.dart';
-
 final sdk = Get.find<Directus>();
 
 Future<void> logout() async {
@@ -28,7 +26,6 @@ Future<void> login(String email, String password) async {
 }
 
 Future<DirectusResponse<DirectusUser>> register(data) async {
-  print(data);
   final createdUser = sdk.users.createOne(User.fromJson(data));
   return createdUser;
 }
@@ -36,6 +33,11 @@ Future<DirectusResponse<DirectusUser>> register(data) async {
 Future<bool> isLoggedIn() async {
   bool result = sdk.auth.isLoggedIn;
   return result;
+}
+
+Future<User> userInfo() async {
+  DirectusResponse user = await sdk.auth.currentUser?.read();
+  return User.fromJson(user.data);
 }
 
 /// Уникальный код пользователя
@@ -52,7 +54,7 @@ Future<void> setReferalCode(String code) async {
   preferences.setString('referal_code', code);
 }
 
-/// Уникальный код пользователя
+/// Уникальный код пригласителя пользователя
 Future<String> referalCode() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   return preferences.get('referal_code');

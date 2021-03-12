@@ -5,7 +5,6 @@ import 'package:meyirim/repository/project.dart';
 
 class ProjectListController extends GetxController with ScrollMixin {
   ProjectRepository _repository = new ProjectRepository();
-
   RxList<Project> projects = <Project>[].obs;
   RxBool isLoading = false.obs;
   RxBool hasError = false.obs;
@@ -47,6 +46,7 @@ class ProjectListController extends GetxController with ScrollMixin {
     // offset = 0;
     // projects = [];
     // fetchProject();
+    return null;
   }
 
   Future<void> fetchProject() async {
@@ -54,13 +54,11 @@ class ProjectListController extends GetxController with ScrollMixin {
     DirectusListResponse result =
         await _repository.fetchProjects(limit, offset, false);
     try {
-      if (result != null) {
-        var newProjects = List<Project>.from(result.data.map((x) {
-          return Project.fromJson(x);
-        }));
-        projects.addAll(newProjects);
-        total = result.meta.filterCount;
-      }
+      var newProjects = List<Project>.from(result.data.map((x) {
+        return Project.fromJson(x);
+      }));
+      projects.addAll(newProjects);
+      total = result.meta.filterCount;
     } catch (e) {
       print(e);
       hasError.value = true;

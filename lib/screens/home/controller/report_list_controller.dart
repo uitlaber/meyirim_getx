@@ -38,6 +38,7 @@ class ReportListController extends GetxController with ScrollMixin {
     // offset = 0;
     // projects = [];
     // fetchProject();
+    return null;
   }
 
   Future<void> refreshList() async {
@@ -53,13 +54,11 @@ class ReportListController extends GetxController with ScrollMixin {
     isLoading.value = true;
     DirectusListResponse result = await _repository.fetchReports(limit, offset);
     try {
-      if (result != null) {
-        var newReports = List<Report>.from(result.data.map((x) {
-          return Report.fromJson(x);
-        }));
-        reports.addAll(newReports);
-        total = result.meta.filterCount;
-      }
+      var newReports = List<Report>.from(result.data.map((x) {
+        return Report.fromJson(x);
+      }));
+      reports.addAll(newReports);
+      total = result.meta.filterCount;
     } catch (e) {
       print(e);
       hasError.value = true;

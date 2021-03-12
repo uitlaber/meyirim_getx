@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meyirim/controller/app_controller.dart';
-import 'package:meyirim/core/service/directus.dart';
 
 class HomeController extends GetxController {
   final List<String> tabs = ['лента', 'завершенные', 'отчеты'];

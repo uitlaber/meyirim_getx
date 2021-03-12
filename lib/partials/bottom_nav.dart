@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meyirim/core/utils.dart';
 import 'package:get/get.dart';
-import 'package:meyirim/screens/home.dart';
-import 'package:meyirim/screens/home/controller/home_controller.dart';
-import 'package:meyirim/screens/search.dart';
 
 class BottomNav extends StatelessWidget {
   final int currentPage;
@@ -27,7 +24,7 @@ class BottomNav extends StatelessWidget {
         break;
       case 2:
         {
-          //Get.offNamed('/profile');
+          Get.offNamed('/profile');
         }
         break;
     }
