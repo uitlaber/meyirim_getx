@@ -59,6 +59,7 @@ class RegisterController extends GetxController {
   RxBool isLoading = false.obs;
   GlobalKey<FormState> form = GlobalKey<FormState>();
   User data = new User();
+  RxBool obscureText = false.obs;
   AppController appController = Get.find<AppController>();
 
   Future<void> register() async {
@@ -116,6 +117,7 @@ class RegisterController extends GetxController {
 
 class ResetController extends GetxController {
   RxBool isLoading = false.obs;
+
   GlobalKey<FormState> form = GlobalKey<FormState>();
   _ResetData data = new _ResetData();
   AppController appController = Get.find<AppController>();

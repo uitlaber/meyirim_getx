@@ -73,15 +73,24 @@ class RegisterScreen extends StatelessWidget {
                                 controller.data.email = value;
                               }),
                           SizedBox(height: 30),
-                          TextFormField(
-                              decoration:
-                                  uiInputDecoration(hintText: 'Пароль'.tr),
-                              validator: Rules.passwordValidate,
-                              obscureText: true,
-                              keyboardType: TextInputType.visiblePassword,
-                              onSaved: (String value) {
-                                controller.data.password = value;
-                              }),
+                          Obx(
+                            () => TextFormField(
+                                obscureText: controller.obscureText.value,
+                                decoration: uiInputDecoration(
+                                    hintText: 'Пароль'.tr,
+                                    suffixIcon: InkWell(
+                                      onTap: () =>
+                                          controller.obscureText.value =
+                                              !controller.obscureText.value,
+                                      child: Icon(Icons.remove_red_eye,
+                                          size: 22, color: UIColor.blue),
+                                    )),
+                                validator: Rules.passwordValidate,
+                                keyboardType: TextInputType.visiblePassword,
+                                onSaved: (String value) {
+                                  controller.data.password = value;
+                                }),
+                          ),
                           SizedBox(height: 30),
                           Obx(
                             () => controller.isLoading.isTrue

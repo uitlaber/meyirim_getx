@@ -10,8 +10,10 @@ class UIColor {
   static Color textGray = Colors.grey[600];
 }
 
-InputDecoration uiInputDecoration({hintText: '', EdgeInsetsGeometry padding}) {
+InputDecoration uiInputDecoration(
+    {hintText: '', EdgeInsetsGeometry padding, Widget suffixIcon: null}) {
   return InputDecoration(
+      suffixIcon: suffixIcon,
       contentPadding:
           padding == null ? EdgeInsets.only(left: 20.0, right: 20.0) : padding,
       border: new OutlineInputBorder(
