@@ -168,7 +168,7 @@ class ProjectCard extends StatelessWidget {
                 actions: [
                   IconButton(
                       onPressed: () {
-                        //shareProject(project);
+                        shareProject(project);
                       },
                       icon: Icon(
                         Icons.share,

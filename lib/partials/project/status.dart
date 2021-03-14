@@ -82,6 +82,14 @@ class ProjectStatus extends StatelessWidget {
                 )
               else
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: UIColor.green,
+                      onPrimary: Colors.white,
+                      shadowColor: Colors.white,
+                      elevation: 0,
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(18.0),
+                      )),
                   onPressed: () => showPayBottomSheet(context, project),
                   child: Text(
                     'помочь'.tr,

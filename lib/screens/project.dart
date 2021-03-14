@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:meyirim/core/ui.dart';
 import 'package:meyirim/core/utils.dart';
 import 'package:meyirim/partials/project/fond_card.dart';
 import 'package:meyirim/partials/project/status.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 
 class ProjectScreen extends StatelessWidget {
   YoutubePlayerController _videoPlayerController;
@@ -14,14 +15,14 @@ class ProjectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final project = Get.arguments['project'];
+    if (project == null) Get.back();
     SwiperController _swiperController = SwiperController();
 
-    if (project.videoUrl != null) {
-      var videoId = YoutubePlayer.convertUrlToId(project.videoUrl);
+    if (project != null && project.videoUrl != null) {
+      var videoId = YoutubePlayerController.convertUrlToId(project.videoUrl);
       _videoPlayerController = YoutubePlayerController(
-          initialVideoId: videoId,
-          flags: YoutubePlayerFlags(
-              disableDragSeek: true, autoPlay: true, hideControls: true));
+        initialVideoId: videoId,
+      );
     }
 
     return Scaffold(
@@ -95,8 +96,9 @@ class ProjectScreen extends StatelessWidget {
                           );
                         } else {
                           return Container(
-                              child: YoutubePlayer(
+                              child: YoutubePlayerIFrame(
                             controller: _videoPlayerController,
+                            aspectRatio: 16 / 9,
                           ));
                         }
                       },
@@ -122,6 +124,7 @@ class ProjectScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 10, right: 10, top: 10),
                   child: Text(project.title,
+                      textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                 ),

@@ -8,7 +8,7 @@ import 'package:device_info/device_info.dart';
 final sdk = Get.find<Directus>();
 
 Future<void> logout() async {
-  if (await isLoggedIn()) {
+  if (isLoggedIn()) {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     for (String key in preferences.getKeys()) {
@@ -30,13 +30,13 @@ Future<DirectusResponse<DirectusUser>> register(data) async {
   return createdUser;
 }
 
-Future<bool> isLoggedIn() async {
+bool isLoggedIn() {
   bool result = sdk.auth.isLoggedIn;
   return result;
 }
 
 Future<User> userInfo() async {
-  DirectusResponse user = await sdk.auth.currentUser?.read();
+  DirectusResponse user = (await sdk.auth.currentUser?.read());
   return User.fromJson(user.data);
 }
 

@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:directus/directus.dart';
 import 'package:get/get.dart';
 import 'package:meyirim/models/donation.dart';
 import 'package:meyirim/repository/donation.dart';
-import 'package:meyirim/core/service/auth.dart' as auth;
 
 abstract class DonationsExtController extends GetxController with ScrollMixin {
   RxBool isReferal;

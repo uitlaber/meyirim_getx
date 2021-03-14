@@ -1,12 +1,14 @@
 import 'package:directus/directus.dart';
 import 'package:get/get.dart';
+import 'package:meyirim/models/project.dart';
 
 class ProjectRepository {
+  final sdk = Get.find<Directus>();
+
   Future<DirectusListResponse> fetchProjects(limit, offset, isFinished,
       {filterCount: true}) async {
     DirectusListResponse result;
     try {
-      final sdk = Get.find<Directus>();
       result = await sdk.items('projects').readMany(
           query: Query(
               fields: ['*.*', 'fond.region_id.*'],
@@ -30,7 +32,6 @@ class ProjectRepository {
       {filterCount: true, totalCount: true}) async {
     DirectusListResponse result;
     try {
-      final sdk = Get.find<Directus>();
       result = await sdk.items('projects').readMany(
             query: Query(
                 fields: ['*.*', 'fond.region_id.*'],
@@ -47,5 +48,20 @@ class ProjectRepository {
       result = null;
     }
     return result;
+  }
+
+  Future<Project> findProject(String id) async {
+    Project project;
+    try {
+      final result = await sdk.items('projects').readOne(id,
+          query: Query(
+            fields: ['*.*', 'fond.region_id.*'],
+          ));
+      project = Project.fromJson(result.data);
+    } catch (e) {
+      print(e);
+      project = null;
+    }
+    return project;
   }
 }

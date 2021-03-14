@@ -22,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
           preferredSize: Size.fromHeight(75.0),
           child: AppBar(
             toolbarHeight: 75,
-            title: appController.isLogged()
+            title: appController.isLogged.isTrue
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   )
                 : InkWell(
-                    onTap: () => appController.login(), //Get.to('/register'),
+                    onTap: () => Get.toNamed('/login'),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,7 +87,8 @@ class ProfileScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 userDonations(),
-                SizedBox(height: 50),
+                if (appController.isLogged.isTrue) SizedBox(height: 200),
+                if (appController.isLogged.isTrue) forLogged(),
               ],
             ),
           ),

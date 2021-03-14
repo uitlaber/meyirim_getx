@@ -7,7 +7,7 @@ class UIColor {
   static Color gray = HexColor('#F2F2F7');
   static Color red = HexColor('#FF2D55');
   static Color black = HexColor('#182B44');
-  static Color textGray = HexColor('#333333');
+  static Color textGray = Colors.grey[600];
 }
 
 InputDecoration uiInputDecoration({hintText: '', EdgeInsetsGeometry padding}) {
@@ -33,6 +33,7 @@ InputDecoration uiInputDecoration({hintText: '', EdgeInsetsGeometry padding}) {
 Widget uiButton({VoidCallback onPressed, String text}) {
   return ButtonTheme(
     height: 50.0,
+    buttonColor: UIColor.green,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(30.0),
       // side: BorderSide(color: Colors.red)

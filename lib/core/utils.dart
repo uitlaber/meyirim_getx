@@ -1,13 +1,19 @@
 import 'dart:ui';
-
+import 'package:get/get.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/config.dart' as config;
 import 'package:meyirim/core/service/auth.dart' as auth;
 import 'package:meyirim/models/project.dart';
 import 'package:meyirim/models/report.dart';
+import 'package:meyirim/partials/pay_modal.dart';
+import 'package:meyirim/repository/project.dart';
+import 'package:meyirim/repository/report.dart';
 import 'package:share/share.dart';
+
+final appController = Get.find<AppController>();
 
 class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {
@@ -57,7 +63,14 @@ String formatNum(dynamic amount) {
   return new NumberFormat.compact(locale: 'kk').format(amount);
 }
 
-void showPayBottomSheet(context, project) {}
+void showPayBottomSheet(BuildContext context, Project project) {
+  showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return PayModal(project: project);
+      });
+}
 
 /// Share data
 Future<String> makeReportUrl(report) async {
@@ -78,15 +91,25 @@ Future<String> makeProjectUrl(project) async {
 }
 
 Future shareReport(Report report) async {
-  var link = await makeReportUrl(report);
-  var title = report.title;
-  await Share.share('$title $link');
+  if (appController.isLoading.isFalse) {
+    appController.isLoading.value = true;
+    Get.snackbar('Загрузка', '...');
+    var link = await makeReportUrl(report);
+    var title = report.title;
+    await Share.share('$title $link');
+    appController.isLoading.value = false;
+  }
 }
 
 Future shareProject(Project project) async {
-  var link = await makeProjectUrl(project);
-  var title = project.title;
-  await Share.share('$title $link');
+  if (appController.isLoading.isFalse) {
+    appController.isLoading.value = true;
+    Get.snackbar('Загрузка', '...');
+    var link = await makeProjectUrl(project);
+    var title = project.title;
+    await Share.share('$title $link');
+    appController.isLoading.value = false;
+  }
 }
 
 Future<String> _createDynamicLink(String link, bool short) async {
@@ -115,4 +138,90 @@ Future<String> _createDynamicLink(String link, bool short) async {
   }
 
   return url.toString();
+}
+
+void initDynamicLinks() async {
+  ProjectRepository projectRepository = new ProjectRepository();
+  ReportRepository reportRepository = new ReportRepository();
+
+  FirebaseDynamicLinks.instance.onLink(
+      onSuccess: (PendingDynamicLinkData dynamicLink) async {
+    final Uri deepLink = dynamicLink?.link;
+
+    if (deepLink != null) {
+      if (deepLink.queryParameters['target'] != null) {
+        print(deepLink.queryParameters);
+        print(deepLink.queryParameters['id'].runtimeType);
+        switch (deepLink.queryParameters['target']) {
+          case 'project':
+            var project = await projectRepository
+                .findProject(deepLink.queryParameters['id']);
+            var userCode = await auth.userCode();
+            if (deepLink.queryParameters['user_code'] != null &&
+                deepLink.queryParameters['user_code'] != userCode) {
+              await auth.setReferalCode(deepLink.queryParameters['user_code']);
+            }
+            Get.toNamed('/project', arguments: {'project': project});
+            break;
+
+          case 'report':
+            var report = await reportRepository
+                .findReport(deepLink.queryParameters['id']);
+            var userCode = await auth.userCode();
+            if (deepLink.queryParameters['user_code'] != null &&
+                deepLink.queryParameters['user_code'] != userCode) {
+              await auth.setReferalCode(deepLink.queryParameters['user_code']);
+            }
+            Get.toNamed('/report', arguments: {'report': report});
+            break;
+        }
+      }
+
+      if (deepLink.queryParameters['page'] != null) {
+        print(deepLink.queryParameters);
+        Get.toNamed(deepLink.queryParameters['page']);
+      }
+    }
+  }, onError: (OnLinkErrorException e) async {
+    print('onLinkError');
+    print(e.message);
+  });
+
+  final PendingDynamicLinkData data =
+      await FirebaseDynamicLinks.instance.getInitialLink();
+  final Uri deepLink = data?.link;
+
+  if (deepLink != null) {
+    if (deepLink.queryParameters['target'] != null) {
+      print(deepLink.queryParameters);
+      print(deepLink.queryParameters['id'].runtimeType);
+      switch (deepLink.queryParameters['target']) {
+        case 'project':
+          var project =
+              projectRepository.findProject(deepLink.queryParameters['id']);
+          var userCode = await auth.userCode();
+          if (deepLink.queryParameters['user_code'] != null &&
+              deepLink.queryParameters['user_code'] != userCode) {
+            await auth.setReferalCode(deepLink.queryParameters['user_code']);
+          }
+          Get.toNamed('/project', arguments: {'project': project});
+          break;
+
+        case 'report':
+          var report =
+              await reportRepository.findReport(deepLink.queryParameters['id']);
+          var userCode = await auth.userCode();
+          if (deepLink.queryParameters['user_code'] != null &&
+              deepLink.queryParameters['user_code'] != userCode) {
+            await auth.setReferalCode(deepLink.queryParameters['user_code']);
+          }
+          Get.toNamed('/project', arguments: {'report': report});
+          break;
+      }
+    }
+
+    if (deepLink.queryParameters['page'] != null) {
+      Get.toNamed(deepLink.queryParameters['page']);
+    }
+  }
 }

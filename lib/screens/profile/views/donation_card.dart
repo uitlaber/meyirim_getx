@@ -3,9 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:meyirim/core/utils.dart';
 import 'package:meyirim/models/donation.dart';
-import 'package:meyirim/models/project.dart';
-
-import '../../project.dart';
+import 'package:meyirim/screens/project.dart';
 
 class DonationCard extends StatelessWidget {
   final Donation donation;

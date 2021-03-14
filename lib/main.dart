@@ -1,4 +1,6 @@
 import 'package:directus/directus.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meyirim/binding/app_binding.dart';
@@ -6,19 +8,25 @@ import 'package:meyirim/binding/home_binding.dart';
 import 'package:meyirim/binding/profile_binding.dart';
 import 'package:meyirim/binding/project_binding.dart';
 import 'package:meyirim/core/messages.dart';
+import 'package:meyirim/screens/auth/login.dart';
+import 'package:meyirim/screens/auth/register.dart';
+import 'package:meyirim/screens/auth/reset.dart';
 import 'package:meyirim/screens/home.dart';
 import 'package:meyirim/screens/no_internet.dart';
+import 'package:meyirim/screens/payment/fail.dart';
+import 'package:meyirim/screens/payment/success.dart';
 import 'package:meyirim/screens/profile.dart';
 import 'package:meyirim/screens/project.dart';
 import 'package:meyirim/screens/report.dart';
 import 'package:meyirim/screens/search.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'binding/auth_binding.dart';
 import 'binding/search_binding.dart';
 import 'core/service/directus.dart';
 import 'core/ui.dart';
 import 'core/utils.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initServices();
   runApp(MyApp());
@@ -26,11 +34,19 @@ Future<void> main() async {
 
 Future<void> initServices() async {
   print('starting services ...');
+  await Firebase.initializeApp();
   await Get.putAsync<SharedPreferences>(
       () async => await SharedPreferences.getInstance());
-
   await Get.putAsync<Directus>(() => DirectusAPI().init());
+  await Get.putAsync<FirebaseMessaging>(
+      () async => await FirebaseMessaging.instance);
+
   print('All services started...');
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("Handling a background message: ${message.messageId}");
 }
 
 class MyApp extends StatelessWidget {
@@ -84,6 +100,41 @@ class MyApp extends StatelessWidget {
           transition: Transition.downToUp,
           transitionDuration: Duration(milliseconds: 300),
           page: () => ReportScreen(),
+        ),
+
+        //Страница входа
+        GetPage(
+            name: "/login",
+            transition: Transition.noTransition,
+            page: () => LoginScreen(),
+            binding: AuthBinding()),
+
+        //Страница регистация
+        GetPage(
+            name: "/register",
+            transition: Transition.noTransition,
+            page: () => RegisterScreen(),
+            binding: AuthBinding()),
+
+        //Страница восстановление пароля
+        GetPage(
+            name: "/reset",
+            transition: Transition.noTransition,
+            page: () => ResetScreen(),
+            binding: AuthBinding()),
+
+        //Страница восстановление пароля
+        GetPage(
+          name: "/payment/success",
+          transition: Transition.noTransition,
+          page: () => PaymentSuccessScreen(),
+        ),
+
+        //Страница восстановление пароля
+        GetPage(
+          name: "/payment/fail",
+          transition: Transition.noTransition,
+          page: () => PaymentFailScreen(),
         ),
 
         GetPage(name: "/no_internet", page: () => NoInternetScreen()),

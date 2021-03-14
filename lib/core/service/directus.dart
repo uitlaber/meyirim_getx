@@ -5,9 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:meyirim/core/service/auth.dart' as auth;
 
 class DirectusAPI extends GetxService {
-  Directus sdk;
-
   Future<Directus> init() async {
+    Directus sdk;
     try {
       sdk = await Directus(config.API_URL).init();
     } catch (e) {
@@ -25,6 +24,6 @@ class DirectusAPI extends GetxService {
     if (referalCode != null) {
       sdk.client.options.headers['referal-device-code'] = referalCode;
     }
-    return this.sdk;
+    return sdk;
   }
 }

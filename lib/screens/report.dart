@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:meyirim/core/utils.dart';
 import 'package:meyirim/partials/project/fond_card.dart';
 import 'package:meyirim/partials/project/status.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 
 class ReportScreen extends StatelessWidget {
   YoutubePlayerController _videoPlayerController;
@@ -13,14 +13,14 @@ class ReportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final report = Get.arguments['report'];
+    if (report == null) Get.back();
     SwiperController _swiperController = SwiperController();
 
     if (report.videoUrl != null) {
-      var videoId = YoutubePlayer.convertUrlToId(report.videoUrl);
+      var videoId = YoutubePlayerController.convertUrlToId(report.videoUrl);
       _videoPlayerController = YoutubePlayerController(
-          initialVideoId: videoId,
-          flags: YoutubePlayerFlags(
-              disableDragSeek: true, autoPlay: true, hideControls: true));
+        initialVideoId: videoId,
+      );
     }
 
     return Scaffold(
@@ -92,8 +92,9 @@ class ReportScreen extends StatelessWidget {
                           );
                         } else {
                           return Container(
-                              child: YoutubePlayer(
+                              child: YoutubePlayerIFrame(
                             controller: _videoPlayerController,
+                            aspectRatio: 16 / 9,
                           ));
                         }
                       },

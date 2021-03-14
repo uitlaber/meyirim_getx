@@ -1,12 +1,13 @@
 import 'package:get/get.dart';
 import 'package:directus/directus.dart';
+import 'package:meyirim/models/report.dart';
 
 class ReportRepository {
+  final sdk = Get.find<Directus>();
   Future<DirectusListResponse> fetchReports(limit, offset,
       {filterCount: true}) async {
     DirectusListResponse result;
     try {
-      final sdk = Get.find<Directus>();
       result = await sdk.items('reports').readMany(
           query: Query(fields: [
             '*.*',
@@ -25,5 +26,26 @@ class ReportRepository {
       result = null;
     }
     return result;
+  }
+
+  Future<Report> findReport(String id) async {
+    Report report;
+    try {
+      final result = await sdk.items('reports').readOne(id,
+          query: Query(
+            fields: [
+              '*.*',
+              'fond.region_id.*',
+              'project.photos.*',
+              'project.fond.*',
+              'project.fond.region_id.*'
+            ],
+          ));
+      report = Report.fromJson(result.data);
+    } catch (e) {
+      print(e);
+      report = null;
+    }
+    return report;
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meyirim/core/utils.dart';
-import 'package:meyirim/models/donation.dart';
 import 'package:meyirim/screens/profile/controller/donations_controller.dart';
 import 'package:meyirim/screens/profile/views/donation_card.dart';
 
