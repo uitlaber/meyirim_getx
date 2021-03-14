@@ -29,14 +29,14 @@ import 'core/service/auth.dart' as auth;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+
   await initServices();
   runApp(MyApp());
 }
 
 Future<void> initServices() async {
   print('starting services ...');
-
+  await Firebase.initializeApp();
   await Get.putAsync<SharedPreferences>(
       () async => await SharedPreferences.getInstance());
   await Get.putAsync<Directus>(() async => await DirectusAPI().init());

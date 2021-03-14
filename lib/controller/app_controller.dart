@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:directus/directus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:get/get.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:meyirim/core/service/auth.dart' as auth;
+import 'package:meyirim/core/ui.dart';
 import 'package:meyirim/repository/project.dart';
 import 'package:meyirim/repository/report.dart';
 
@@ -44,6 +46,32 @@ class AppController extends GetxController {
     ReportRepository reportRepository = new ReportRepository();
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      Get.snackbar(message.notification.title, message.notification.body,
+          duration: Duration(seconds: 4),
+          backgroundColor: UIColor.green,
+          colorText: Colors.white, onTap: (obj) async {
+        if (message.data['target'] == 'project' ||
+            message.data['target'] == 'report') {
+          switch (message.data['target']) {
+            case 'project':
+              var project =
+                  await projectRepository.findProject(message.data['id']);
+              Get.toNamed('/project', arguments: {'project': project});
+              break;
+            case 'report':
+              var report =
+                  await reportRepository.findReport(message.data['id']);
+              Get.toNamed('/report', arguments: {'report': report});
+              break;
+          }
+          if (message.data['page'] != null) {
+            Get.toNamed(message.data['page'],
+                arguments: {'id': message.data['id']});
+          }
+        }
+        return;
+      });
+
       print('Got a message whilst in the foreground!');
       print('Message data: ${message.data}');
 
@@ -67,6 +95,10 @@ class AppController extends GetxController {
             break;
         }
       }
+      if (message.data['page'] != null) {
+        Get.toNamed(message.data['page'],
+            arguments: {'id': message.data['id']});
+      }
     });
   }
 
@@ -80,6 +112,7 @@ class AppController extends GetxController {
       provisional: false,
       sound: true,
     );
+    print(await messaging.getToken());
 
     print('User granted permission: ${settings.authorizationStatus}');
   }
