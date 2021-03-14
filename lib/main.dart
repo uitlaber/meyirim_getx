@@ -25,28 +25,27 @@ import 'binding/search_binding.dart';
 import 'core/service/directus.dart';
 import 'core/ui.dart';
 import 'core/utils.dart';
+import 'core/service/auth.dart' as auth;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await initServices();
   runApp(MyApp());
 }
 
 Future<void> initServices() async {
   print('starting services ...');
-  await Firebase.initializeApp();
+
   await Get.putAsync<SharedPreferences>(
       () async => await SharedPreferences.getInstance());
-  await Get.putAsync<Directus>(() => DirectusAPI().init());
-  await Get.putAsync<FirebaseMessaging>(
-      () async => await FirebaseMessaging.instance);
+  await Get.putAsync<Directus>(() async => await DirectusAPI().init());
+
+  await Get.putAsync<FirebaseMessaging>(() async => FirebaseMessaging.instance);
+
+  await auth.userCode();
 
   print('All services started...');
-}
-
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  print("Handling a background message: ${message.messageId}");
 }
 
 class MyApp extends StatelessWidget {

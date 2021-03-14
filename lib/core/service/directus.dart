@@ -5,13 +5,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:meyirim/core/service/auth.dart' as auth;
 
 class DirectusAPI extends GetxService {
+  final preferences = Get.find<SharedPreferences>();
   Future<Directus> init() async {
     Directus sdk;
     try {
       sdk = await Directus(config.API_URL).init();
     } catch (e) {
       print(e);
-      SharedPreferences preferences = await SharedPreferences.getInstance();
+
       for (String key in preferences.getKeys()) {
         if (key.startsWith('directus__')) {
           preferences.remove(key);
@@ -19,7 +20,7 @@ class DirectusAPI extends GetxService {
       }
       sdk = await Directus(config.API_URL).init();
     }
-    sdk.client.options.headers['device-code'] = await auth.userCode();
+
     var referalCode = await auth.referalCode();
     if (referalCode != null) {
       sdk.client.options.headers['referal-device-code'] = referalCode;

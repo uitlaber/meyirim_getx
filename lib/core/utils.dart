@@ -150,8 +150,6 @@ void initDynamicLinks() async {
 
     if (deepLink != null) {
       if (deepLink.queryParameters['target'] != null) {
-        print(deepLink.queryParameters);
-        print(deepLink.queryParameters['id'].runtimeType);
         switch (deepLink.queryParameters['target']) {
           case 'project':
             var project = await projectRepository

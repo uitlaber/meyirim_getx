@@ -1,22 +1,26 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:meyirim/controller/app_controller.dart';
 import 'dart:core';
+import 'package:meyirim/core/config.dart' as config;
 import 'package:directus/directus.dart';
 import 'package:meyirim/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
 
 final sdk = Get.find<Directus>();
+final preferences = Get.find<SharedPreferences>();
+final appController = Get.find<AppController>();
 
 Future<void> logout() async {
+  Get.snackbar('Сообщение системы'.tr, 'Вы вышли из системы');
   if (isLoggedIn()) {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-
     for (String key in preferences.getKeys()) {
       if (key.startsWith('directus__')) {
         preferences.remove(key);
       }
     }
-
     await sdk.auth.logout();
   }
 }
@@ -42,10 +46,62 @@ Future<User> userInfo() async {
 
 /// Уникальный код пользователя
 Future<String> userCode() async {
-  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-  //@Todo Изменить платформу в IOS
-  AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-  return androidInfo.androidId;
+  String userCode;
+  if (isLoggedIn()) {
+    try {
+      final response = await sdk.client.get(config.API_URL + "/users/me");
+
+      userCode = response.data['data']['user_code'];
+      print(userCode);
+      final result = await sdk.items('install_codes').readOne(userCode);
+      print(result.data);
+      sdk.client.options.headers['device-code'] = userCode;
+      print('Это из базы: ${userCode}');
+      if (userCode != null && userCode.isNotEmpty) {
+        print('Used logged user_code: ${userCode}');
+        return userCode;
+      }
+    } catch (e) {
+      userCode = '';
+      print(DirectusError.fromDio(e).message);
+    }
+  }
+  userCode = preferences.getString('user_code');
+  if (userCode != null || userCode.isNotEmpty) {
+    try {
+      final result = await sdk.items('install_codes').readOne(userCode);
+      print(result.data);
+      print('Used storage user_code: ${userCode}');
+      sdk.client.options.headers['device-code'] = userCode;
+      if (isLoggedIn()) {
+        try {
+          await sdk.client
+              .patch('users/me', data: json.encode({'user_code': userCode}));
+        } catch (e) {
+          print(DirectusError.fromDio(e).message);
+        }
+      }
+      return userCode;
+    } catch (e) {
+      userCode = '';
+      print(DirectusError.fromDio(e).message);
+    }
+  }
+  try {
+    //@Todo Изменить платформу в IOS
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    final result = await sdk
+        .items('install_codes')
+        .createOne({'device_info': androidInfo.model});
+    userCode = result.data['id'];
+    preferences.setString('user_code', userCode);
+    print('Used new user_code: ${userCode}');
+    sdk.client.options.headers['device-code'] = userCode;
+    return userCode;
+  } catch (e) {
+    print(DirectusError.fromDio(e).message);
+  }
 }
 
 Future<void> setReferalCode(String code) async {
