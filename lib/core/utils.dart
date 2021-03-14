@@ -1,8 +1,10 @@
 import 'dart:ui';
+import 'package:form_validator/form_validator.dart';
 import 'package:get/get.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/config.dart' as config;
 import 'package:meyirim/core/service/auth.dart' as auth;
@@ -70,6 +72,33 @@ void showPayBottomSheet(BuildContext context, Project project) {
       builder: (ctx) {
         return PayModal(project: project);
       });
+}
+
+class Rules {
+  static final emailValidate = ValidationBuilder()
+      .email('Введите E-mail'.tr)
+      .maxLength(50, 'Неверный E-mail'.tr)
+      .build();
+
+  static final phoneValidate = ValidationBuilder()
+      .required('Введите номер телефона'.tr)
+      .regExp(RegExp(r'^\+7 \(([0-9]{3})\) ([0-9]{3})-([0-9]{2})-([0-9]{2})$'),
+          'Неверный формат номера'.tr)
+      .build();
+
+  static final passwordValidate = ValidationBuilder()
+      .required('Введите пароль')
+      .minLength(6, 'Минимум 6 символов'.tr)
+      .build();
+
+  static final fullnameValidate =
+      ValidationBuilder().minLength(1, 'Введите фамилию').build();
+
+  static final messageValidate =
+      ValidationBuilder().minLength(50, 'Минимум 50 символов').build();
+
+  static final phoneFormatter = new MaskTextInputFormatter(
+      mask: '+7 (###) ###-##-##', filter: {"#": RegExp(r'[0-9]')});
 }
 
 /// Share data

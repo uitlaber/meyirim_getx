@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meyirim/controller/app_controller.dart';
 import 'dart:core';
@@ -9,12 +10,18 @@ import 'package:meyirim/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
 
+import '../ui.dart';
+
 final sdk = Get.find<Directus>();
 final preferences = Get.find<SharedPreferences>();
 final appController = Get.find<AppController>();
 
 Future<void> logout() async {
-  Get.snackbar('Сообщение системы'.tr, 'Вы вышли из системы');
+  Get.snackbar('Сообщение системы'.tr, 'Вы вышли из системы'.tr,
+      duration: Duration(seconds: 4),
+      backgroundColor: UIColor.green,
+      colorText: Colors.white);
+
   if (isLoggedIn()) {
     for (String key in preferences.getKeys()) {
       if (key.startsWith('directus__')) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meyirim/core/ui.dart';
 import 'package:get/get.dart';
+import 'package:meyirim/core/utils.dart';
 import 'controller/auth_controller.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -56,7 +57,7 @@ class LoginScreen extends StatelessWidget {
                           SizedBox(height: 35),
                           TextFormField(
                               decoration: uiInputDecoration(hintText: 'E-mail'),
-                              validator: controller.emailValidate,
+                              validator: Rules.emailValidate,
                               keyboardType: TextInputType.emailAddress,
                               onSaved: (String value) {
                                 controller.data.email = value;
@@ -65,22 +66,32 @@ class LoginScreen extends StatelessWidget {
                           TextFormField(
                               decoration:
                                   uiInputDecoration(hintText: 'Пароль'.tr),
-                              validator: controller.passwordValidate,
+                              validator: Rules.passwordValidate,
                               obscureText: true,
                               keyboardType: TextInputType.visiblePassword,
                               onSaved: (String value) {
                                 controller.data.password = value;
                               }),
                           SizedBox(height: 30),
-                          uiButton(
-                              onPressed: () => controller.login(),
-                              text: 'Войти'.tr),
+                          Obx(
+                            () => controller.isLoading.isTrue
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      valueColor:
+                                          new AlwaysStoppedAnimation<Color>(
+                                              Colors.white),
+                                    ),
+                                  )
+                                : uiButton(
+                                    onPressed: () => controller.login(),
+                                    text: 'Войти'.tr),
+                          ),
                           SizedBox(height: 30),
                           new InkWell(
                               child: new Text('Забыли пароль'.tr,
                                   style: TextStyle(
                                       fontSize: 16.0, color: Colors.white)),
-                              onTap: () => Get.offNamed('/reset')),
+                              onTap: () async => await Get.offNamed('/reset')),
                           SizedBox(height: 15),
                           new InkWell(
                               child: new Text('Регистрация'.tr,
@@ -89,7 +100,8 @@ class LoginScreen extends StatelessWidget {
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   )),
-                              onTap: () => Get.offNamed('/register')),
+                              onTap: () async =>
+                                  await Get.offNamed('/register')),
                         ],
                       ),
                     ),

@@ -15,6 +15,7 @@ class AppController extends GetxController {
   Directus sdk = Get.find<Directus>();
   FirebaseMessaging messaging = Get.find<FirebaseMessaging>();
   DirectusUser user;
+  var lastReset;
 
   @override
   Future<void> onInit() async {

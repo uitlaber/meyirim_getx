@@ -50,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   )
                 : InkWell(
-                    onTap: () => Get.toNamed('/login'),
+                    onTap: () => Get.toNamed('/register'),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,

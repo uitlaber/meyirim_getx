@@ -31,25 +31,26 @@ InputDecoration uiInputDecoration({hintText: '', EdgeInsetsGeometry padding}) {
 }
 
 Widget uiButton({VoidCallback onPressed, String text}) {
-  return ButtonTheme(
+  return SizedBox(
+    width: double.infinity,
     height: 50.0,
-    buttonColor: UIColor.green,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(30.0),
-      // side: BorderSide(color: Colors.red)
-    ),
-    child: SizedBox(
-      width: double.infinity,
-      height: 50.0,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: UIColor.green,
+        onPrimary: Colors.white,
+        shadowColor: Colors.white,
+        elevation: 0,
+        shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(30.0),
+        ),
+      ),
+      onPressed: onPressed,
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
         ),
       ),
     ),
