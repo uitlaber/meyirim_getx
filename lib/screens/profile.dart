@@ -5,6 +5,7 @@ import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/ui.dart';
 import 'package:meyirim/partials/bottom_nav.dart';
 import 'package:meyirim/core/utils.dart';
+import 'package:meyirim/partials/indigent/indigent_add.dart';
 import 'package:meyirim/screens/profile/controller/profile_controller.dart';
 import 'package:meyirim/screens/profile/views/donations.dart';
 import 'package:meyirim/screens/profile/views/donations_referal.dart';
@@ -195,7 +196,7 @@ class ProfileScreen extends StatelessWidget {
     return Column(
       children: [
         InkWell(
-          onTap: () => Get.toNamed('/add-indigent'),
+          onTap: () => Get.dialog(IndigentAddScreen()),
           child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(

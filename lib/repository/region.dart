@@ -1,19 +1,28 @@
+import 'package:directus/directus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 import 'package:meyirim/models/region.dart';
 
 class RegionRepository {
-  Future<Region> findRegion(int id) async {
-    Region result;
+  final sdk = Get.find<Directus>();
+
+  Future<List<Region>> fetchRegion(int countryId) async {
+    List<Region> result = [];
     try {
-      final prefs = Get.find<SharedPreferences>();
-      List<Region> regions = Region.decode(prefs.get('regions'));
-      result = regions.firstWhere((Region region) {
-        return region.id == id;
-      });
+      DirectusListResponse response = await sdk.items('regions').readMany(
+          query: Query(
+            fields: [
+              '*',
+            ],
+          ),
+          filters: Filters({'country_id': Filter.eq(countryId)}));
+
+      result = List<Region>.from(response.data.map((x) {
+        return Region.fromJson(x);
+      }));
     } catch (e) {
       print(e);
-      result = null;
+      result = [];
     }
     return result;
   }

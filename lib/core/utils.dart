@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:form_validator/form_validator.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,12 +8,17 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/config.dart' as config;
 import 'package:meyirim/core/service/auth.dart' as auth;
+import 'package:meyirim/models/file.dart';
 import 'package:meyirim/models/project.dart';
 import 'package:meyirim/models/report.dart';
 import 'package:meyirim/partials/pay_modal.dart';
+import 'package:meyirim/repository/file.dart';
 import 'package:meyirim/repository/project.dart';
 import 'package:meyirim/repository/report.dart';
 import 'package:share/share.dart';
+import 'package:mime/mime.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:dio/dio.dart';
 
 final appController = Get.find<AppController>();
 

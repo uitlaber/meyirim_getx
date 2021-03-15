@@ -15,6 +15,12 @@ class LoginController extends GetxController {
   _LoginData data = new _LoginData();
   AppController appController = Get.find<AppController>();
 
+  @override
+  void onClose() {
+    isLoading.value = false;
+    super.onClose();
+  }
+
   Future<void> login() async {
     if (form.currentState.validate() && isLoading.isFalse) {
       isLoading.value = true;
@@ -61,6 +67,12 @@ class RegisterController extends GetxController {
   User data = new User();
   RxBool obscureText = false.obs;
   AppController appController = Get.find<AppController>();
+
+  @override
+  void onClose() {
+    isLoading.value = false;
+    super.onClose();
+  }
 
   Future<void> register() async {
     if (form.currentState.validate() && isLoading.isFalse) {
@@ -122,6 +134,12 @@ class ResetController extends GetxController {
   _ResetData data = new _ResetData();
   AppController appController = Get.find<AppController>();
   Directus sdk = Get.find<Directus>();
+
+  @override
+  void onClose() {
+    isLoading.value = false;
+    super.onClose();
+  }
 
   Future<void> reset() async {
     if (form.currentState.validate() && isLoading.isFalse) {
