@@ -22,9 +22,9 @@ Future<void> logout() async {
       backgroundColor: UIColor.green,
       colorText: Colors.white);
 
-  if (isLoggedIn()) {
+  if (appController.isLogged.isTrue) {
     for (String key in preferences.getKeys()) {
-      if (key.startsWith('directus__')) {
+      if (key.startsWith('directus')) {
         preferences.remove(key);
       }
     }
@@ -54,18 +54,20 @@ Future<User> userInfo() async {
 /// Уникальный код пользователя
 Future<String> userCode() async {
   String userCode;
-  if (isLoggedIn()) {
+  print(appController.isLogged.isTrue);
+  if (appController.isLogged.isTrue) {
     try {
       final response = await sdk.client.get(config.API_URL + "/users/me");
 
+      print(response);
       userCode = response.data['data']['user_code'];
       print(userCode);
       final result = await sdk.items('install_codes').readOne(userCode);
       print(result.data);
       sdk.client.options.headers['device-code'] = userCode;
-      print('Это из базы: ${userCode}');
+      print('Это из базы: $userCode');
       if (userCode != null && userCode.isNotEmpty) {
-        print('Used logged user_code: ${userCode}');
+        print('Used logged user_code: $userCode');
         return userCode;
       }
     } catch (e) {
@@ -74,13 +76,14 @@ Future<String> userCode() async {
     }
   }
   userCode = preferences.getString('user_code');
-  if (userCode != null || userCode.isNotEmpty) {
+
+  if (userCode != null && userCode.isNotEmpty) {
     try {
       final result = await sdk.items('install_codes').readOne(userCode);
       print(result.data);
-      print('Used storage user_code: ${userCode}');
+      print('Used storage user_code: $userCode');
       sdk.client.options.headers['device-code'] = userCode;
-      if (isLoggedIn()) {
+      if (appController.isLogged.isTrue) {
         try {
           await sdk.client
               .patch('users/me', data: json.encode({'user_code': userCode}));
@@ -88,6 +91,7 @@ Future<String> userCode() async {
           print(DirectusError.fromDio(e).message);
         }
       }
+      print(userCode);
       return userCode;
     } catch (e) {
       userCode = '';
@@ -103,12 +107,12 @@ Future<String> userCode() async {
         .createOne({'device_info': androidInfo.model});
     userCode = result.data['id'];
     preferences.setString('user_code', userCode);
-    print('Used new user_code: ${userCode}');
+    print('Used new user_code: $userCode');
     sdk.client.options.headers['device-code'] = userCode;
-    return userCode;
   } catch (e) {
     print(DirectusError.fromDio(e).message);
   }
+  return userCode;
 }
 
 Future<void> setReferalCode(String code) async {

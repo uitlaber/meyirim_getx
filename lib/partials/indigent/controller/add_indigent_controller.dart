@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'dart:ui';
 import 'package:directus/directus.dart';
 import 'package:meyirim/core/ui.dart';
-import 'package:meyirim/core/utils.dart';
 import 'package:meyirim/models/file.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,14 +27,13 @@ class AddIndigentController extends GetxController {
   @override
   Future<void> onInit() async {
     List<Region> regions = await regionRepository.fetchRegion(1);
-    print(regions);
     regions.forEach((region) {
       regionOptions.add(S2Choice<int>(value: region.id, title: region.name));
     });
     super.onInit();
   }
 
-  void send() async {
+  send() async {
     if (form.currentState.validate() && isLoading.isFalse) {
       isLoading.value = true;
       form.currentState.save();
@@ -44,7 +41,7 @@ class AddIndigentController extends GetxController {
       try {
         Map<String, dynamic> newData = {
           'fullname': data.fullname,
-          'region_id': data.regionId,
+          'region_id': data.region,
           'address': data.address,
           'phone': data.phone,
           'note': data.note,

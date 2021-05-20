@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:directus/directus.dart';
-import 'package:form_validator/form_validator.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:meyirim/core/service/auth.dart' as auth;
 import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/ui.dart';
 import 'package:meyirim/models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
   RxBool isLoading = false.obs;
@@ -68,6 +68,9 @@ class RegisterController extends GetxController {
   RxBool obscureText = false.obs;
   AppController appController = Get.find<AppController>();
 
+  final sdk = Get.find<Directus>();
+  final preferences = Get.find<SharedPreferences>();
+
   @override
   void onClose() {
     isLoading.value = false;
@@ -75,9 +78,19 @@ class RegisterController extends GetxController {
   }
 
   Future<void> register() async {
+    for (String key in preferences.getKeys()) {
+      if (key.startsWith('directus')) {
+        preferences.remove(key);
+      }
+    }
+    try {
+      await sdk.auth.logout();
+    } catch (e) {}
+
     if (form.currentState.validate() && isLoading.isFalse) {
       isLoading.value = true;
       form.currentState.save();
+      print(data.toJson());
       try {
         data.userCode = await auth.userCode();
         await auth.register(data.toJson());
@@ -85,7 +98,7 @@ class RegisterController extends GetxController {
         print('"${e.message}"');
         String errorMessage = '';
         switch (e.message) {
-          case 'EMAIL_EXIST':
+          case 'Field "email" has to be unique.':
             errorMessage = 'E-mail уже зарегистрирован!';
             break;
           case 'PHONE_EXIST':
@@ -100,6 +113,7 @@ class RegisterController extends GetxController {
         isLoading.value = false;
         return;
       }
+
       await auth.login(data.email, data.password).then((value) async {
         await appController.userInfo();
         appController.isLogged.value = appController.checkAuth();

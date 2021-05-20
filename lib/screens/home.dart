@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/ui.dart';
-import 'package:meyirim/core/utils.dart';
 import 'package:meyirim/partials/bottom_nav.dart';
 import 'package:meyirim/screens/home/controller/home_controller.dart';
 import 'package:meyirim/screens/home/tabs/project_finished_list_tab.dart';
 import 'package:meyirim/screens/home/tabs/report_list_tab.dart';
 import 'package:meyirim/screens/intro.dart';
-
 import 'home/tabs/project_list_tab.dart';
 
 class HomeScreen extends StatelessWidget {

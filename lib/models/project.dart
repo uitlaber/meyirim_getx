@@ -47,8 +47,10 @@ class Project {
         requiredAmount: double.parse(json["required_amount"]),
         donationsCount: json["donations_count"],
         collectedAmount: double.parse(json["collected_amount"]),
-        photos: List<Photo>.from(json["photos"].map((x) => Photo.fromJson(x))),
-        fond: Fond.fromJson(json["fond"]),
+        photos: (json["photos"].length != null)
+            ? List<Photo>.from(json["photos"].map((x) => Photo.fromJson(x)))
+            : [],
+        fond: json["fond"] != null ? Fond.fromJson(json["fond"]) : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -75,7 +77,8 @@ class Project {
   }
 
   String getPhoto(int index) {
-    if (photos.asMap().containsKey(index)) {
+    if (photos.asMap().containsKey(index) &&
+        photos[index].directusFilesId != null) {
       return config.API_URL + '/assets/' + '${photos[index].directusFilesId}';
     }
     return 'https://via.placeholder.com/400';

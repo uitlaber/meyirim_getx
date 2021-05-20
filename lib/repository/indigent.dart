@@ -1,27 +1,26 @@
 import 'package:directus/directus.dart';
 import 'package:get/get.dart';
-import 'package:meyirim/models/project.dart';
+import 'package:meyirim/models/indigent.dart';
 
-class ProjectRepository {
+class IndigentRepository {
   final sdk = Get.find<Directus>();
 
-  Future<DirectusListResponse> fetchProjects(limit, offset, isFinished,
+  Future<DirectusListResponse> fetchIndigents(limit, offset, isVerifed,
       {filterCount: true}) async {
     DirectusListResponse result;
-
     try {
-      result = await sdk.items('projects').readMany(
+      result = await sdk.items('indigents').readMany(
           query: Query(
-              fields: ['*.*', 'fond.region_id.*'],
+              fields: ['*.*'],
               limit: limit,
               offset: offset,
+              sort: ['-date_created'],
               meta: Meta(filterCount: filterCount)),
           filters: Filters({
-            'status': Filter.eq('published'),
-            'is_finished': Filter.eq(isFinished),
+            // 'status': Filter.eq('published'),
+            'is_verifed': Filter.eq(isVerifed),
           }));
 
-      print(result);
       return result;
     } catch (e) {
       print(e);
@@ -30,19 +29,21 @@ class ProjectRepository {
     return result;
   }
 
-  Future<DirectusListResponse> searchProjects(query, limit, offset, isFinished,
+  Future<DirectusListResponse> searchIndigents(
+      query, limit, offset, isValidated,
       {filterCount: true, totalCount: true}) async {
     DirectusListResponse result;
     try {
-      result = await sdk.items('projects').readMany(
+      result = await sdk.items('indigents').readMany(
             query: Query(
-                fields: ['*.*', 'fond.region_id.*'],
+                fields: ['*.*'],
                 limit: limit,
                 offset: offset,
+                sort: ['-date_created'],
                 customParams: {'search': query.toLowerCase()},
                 meta: Meta(totalCount: true, filterCount: true)),
             filters: Filters({
-              'status': Filter.eq('published'),
+              // 'status': Filter.eq('published'),
             }),
           );
     } catch (e) {
@@ -52,14 +53,13 @@ class ProjectRepository {
     return result;
   }
 
-  Future<Project> findProject(String id) async {
-    Project project;
+  Future<Indigent> findIndigent(String id) async {
+    Indigent project;
     try {
-      final result = await sdk.items('projects').readOne(id,
-          query: Query(
-            fields: ['*.*', 'fond.region_id.*'],
-          ));
-      project = Project.fromJson(result.data);
+      final result = await sdk
+          .items('indigents')
+          .readOne(id, query: Query(fields: ['*.*']));
+      project = Indigent.fromJson(result.data);
     } catch (e) {
       print(e);
       project = null;

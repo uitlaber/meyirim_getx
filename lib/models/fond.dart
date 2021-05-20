@@ -23,7 +23,9 @@ class Fond {
 
   factory Fond.fromJson(Map<String, dynamic> json) => Fond(
         firstName: json["first_name"],
-        region: Region.fromJson(json["region_id"]),
+        region: json["region_id"] != null
+            ? Region.fromJson(json["region_id"])
+            : null,
         id: json["id"],
         email: json["email"],
         title: json["title"],

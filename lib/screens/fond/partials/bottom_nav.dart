@@ -3,10 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meyirim/core/utils.dart';
 import 'package:get/get.dart';
 
-class BottomNav extends StatelessWidget {
+class FondBottomNav extends StatelessWidget {
   final int currentPage;
 
-  const BottomNav({Key key, @required this.currentPage}) : super(key: key);
+  const FondBottomNav({Key key, @required this.currentPage}) : super(key: key);
 
   void _onItemTapped(int index) {
     if (currentPage == index) return;

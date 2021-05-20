@@ -25,7 +25,6 @@ import 'binding/search_binding.dart';
 import 'core/service/directus.dart';
 import 'core/ui.dart';
 import 'core/utils.dart';
-import 'core/service/auth.dart' as auth;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,11 +38,13 @@ Future<void> initServices() async {
   await Firebase.initializeApp();
   await Get.putAsync<SharedPreferences>(
       () async => await SharedPreferences.getInstance());
+  print('SharedPreferences initialed...');
+
   await Get.putAsync<Directus>(() async => await DirectusAPI().init());
+  print('Directus initialed...');
 
   await Get.putAsync<FirebaseMessaging>(() async => FirebaseMessaging.instance);
-
-  await auth.userCode();
+  print('FirebaseMessaging initialed...');
 
   print('All services started...');
 }
@@ -64,6 +65,13 @@ class MyApp extends StatelessWidget {
       fallbackLocale: Locale('ru', 'RU'),
       defaultTransition: null,
       getPages: [
+        // //Главная
+        // GetPage(
+        //     name: "/fond/home",
+        //     page: () => FondHomeScreen(),
+        //     transition: Transition.noTransition,
+        //     binding: FondHomeBinding()),
+
         //Главная
         GetPage(
             name: "/home",

@@ -5,7 +5,6 @@ import 'package:meyirim/repository/donation.dart';
 
 abstract class DonationsExtController extends GetxController with ScrollMixin {
   RxBool isReferal;
-  DonationRepository _repository;
   RxList<Donation> donations;
   RxBool isLoading;
   RxBool hasError;
@@ -46,7 +45,7 @@ class DonationsController extends DonationsExtController {
   }
 
   @override
-  Future<void> onTopScroll() {}
+  Future<void> onTopScroll() async {}
 
   @override
   Future<void> onInit() async {
@@ -101,7 +100,7 @@ class DonationsReferalController extends DonationsExtController {
   }
 
   @override
-  Future<void> onTopScroll() {}
+  Future<void> onTopScroll() async {}
 
   @override
   Future<void> onInit() async {

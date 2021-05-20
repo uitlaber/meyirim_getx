@@ -16,16 +16,9 @@ class ReportCard extends StatelessWidget {
       onTap: () => Get.toNamed('/report', arguments: {'report': report}),
       child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 3,
-                  blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
-                ),
-              ]),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            color: Colors.white,
+          ),
           margin: EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

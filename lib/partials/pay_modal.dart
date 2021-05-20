@@ -1,10 +1,10 @@
 import 'dart:ui';
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:directus/directus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/my_app_browser.dart';
 import 'package:meyirim/core/ui.dart';
 import 'package:meyirim/core/utils.dart';
@@ -25,6 +25,7 @@ class PayModal extends StatefulWidget {
 class _PayModalState extends State<PayModal> {
   int amount = 100;
   final amountTextController = TextEditingController();
+  final appController = Get.find<AppController>();
   bool _isLoading;
 
   @override
@@ -185,6 +186,10 @@ class _PayModalState extends State<PayModal> {
 
   void payCard() async {
     if (!mounted) return;
+    if (appController.isLoading.isFalse) {
+      appController.isLoading.value = true;
+      Get.snackbar('Загрузка', '...');
+    }
     setState(() {
       _isLoading = true;
     });

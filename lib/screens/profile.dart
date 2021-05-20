@@ -5,11 +5,12 @@ import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/ui.dart';
 import 'package:meyirim/partials/bottom_nav.dart';
 import 'package:meyirim/core/utils.dart';
-import 'package:meyirim/partials/indigent/indigent_add.dart';
 import 'package:meyirim/screens/profile/controller/profile_controller.dart';
 import 'package:meyirim/screens/profile/views/donations.dart';
 import 'package:meyirim/screens/profile/views/donations_referal.dart';
+import 'package:meyirim/screens/profile/views/contacts.dart';
 
+// ignore: must_be_immutable
 class ProfileScreen extends StatelessWidget {
   ProfileController controller = Get.find<ProfileController>();
   AppController appController = Get.find<AppController>();
@@ -41,13 +42,13 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      InkWell(
-                        onTap: () {
-                          appController.logout();
-                        },
-                        child:
-                            SvgPicture.asset('assets/icon/edit.svg', width: 31),
-                      )
+                      // InkWell(
+                      //   onTap: () {
+                      //     appController.logout();
+                      //   },
+                      //   child:
+                      //       SvgPicture.asset('assets/icon/edit.svg', width: 31),
+                      // )
                     ],
                   )
                 : InkWell(
@@ -88,8 +89,10 @@ class ProfileScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 userDonations(),
-                if (appController.isLogged.isTrue) SizedBox(height: 200),
-                if (appController.isLogged.isTrue) forLogged(),
+                SizedBox(height: 200),
+                feedbackLinks()
+                // if (appController.isLogged.isTrue) SizedBox(height: 200),
+                // if (appController.isLogged.isTrue) forLogged(),
               ],
             ),
           ),
@@ -97,6 +100,29 @@ class ProfileScreen extends StatelessWidget {
         bottomNavigationBar: BottomNav(currentPage: 2),
       );
     });
+  }
+
+  Widget feedbackLinks() {
+    return Container(
+      child: InkWell(
+          onTap: () => Get.dialog(Contacts()),
+          child: Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              child: Row(children: [
+                Icon(Icons.message_outlined, color: UIColor.blue, size: 40),
+                SizedBox(
+                  width: 10,
+                ),
+                Text('Написать нам'.tr,
+                    style: TextStyle(
+                        color: UIColor.blue,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500)),
+              ]))),
+    );
   }
 
   Widget userDonations() {
@@ -195,49 +221,51 @@ class ProfileScreen extends StatelessWidget {
   Widget forLogged() {
     return Column(
       children: [
-        InkWell(
-          onTap: () => Get.dialog(IndigentAddScreen()),
-          child: Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              child: Row(children: [
-                Icon(Icons.add_circle_outline, color: UIColor.blue, size: 44),
-                SizedBox(
-                  width: 10,
-                ),
-                Text('Добавить нуждающегося'.tr,
-                    style: TextStyle(
-                        color: UIColor.blue,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500)),
-              ])),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        InkWell(
-            onTap: () => Get.to('/add-feedback'),
-            child: Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: Row(children: [
-                  Icon(Icons.message_outlined, color: UIColor.blue, size: 40),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text('Написать сообщение'.tr,
-                      style: TextStyle(
-                          color: UIColor.blue,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500)),
-                ]))),
-        SizedBox(
-          height: 15,
-        ),
+        // InkWell(
+        //   onTap: () => Get.dialog(IndigentAddScreen()),
+        //   child: Container(
+        //       padding: EdgeInsets.all(10),
+        //       decoration: BoxDecoration(
+        //           color: Colors.white,
+        //           borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        //       child: Row(children: [
+        //         Icon(Icons.add_circle_outline, color: UIColor.blue, size: 44),
+        //         SizedBox(
+        //           width: 10,
+        //         ),
+        //         Text('Добавить нуждающегося'.tr,
+        //             style: TextStyle(
+        //                 color: UIColor.blue,
+        //                 fontSize: 15,
+        //                 fontWeight: FontWeight.w500)),
+        //       ])),
+        // ),
+        // SizedBox(
+        //   height: 15,
+        // ),
+        // appController.isFond() == true
+        //     ? InkWell(
+        //         onTap: () => Get.offNamed('/fond/home'),
+        //         child: Container(
+        //             padding: EdgeInsets.all(10),
+        //             decoration: BoxDecoration(
+        //                 color: UIColor.red,
+        //                 borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        //             child: Row(children: [
+        //               Icon(Icons.account_circle, color: Colors.white, size: 40),
+        //               SizedBox(
+        //                 width: 10,
+        //               ),
+        //               Text('Панель управления фондом'.tr,
+        //                   style: TextStyle(
+        //                       color: Colors.white,
+        //                       fontSize: 15,
+        //                       fontWeight: FontWeight.w500)),
+        //             ])))
+        //     : Container(),
+        // SizedBox(
+        //   height: 15,
+        // ),
       ],
     );
   }

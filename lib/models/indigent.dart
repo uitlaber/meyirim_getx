@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:meyirim/models/photo.dart';
+import 'package:meyirim/core/config.dart' as config;
+import 'package:meyirim/models/region.dart';
 
 import 'fond.dart';
 
@@ -20,9 +22,10 @@ class Indigent {
     this.isVerifed,
     this.location,
     this.iin,
-    this.regionId,
+    this.region,
     this.fond,
     this.photos,
+    this.dateCreated,
   });
 
   int id;
@@ -36,9 +39,10 @@ class Indigent {
   bool isVerifed;
   String location;
   String iin;
-  int regionId;
+  Region region;
   Fond fond;
   List<Photo> photos;
+  DateTime dateCreated;
 
   factory Indigent.fromJson(Map<String, dynamic> json) => Indigent(
         id: json["id"],
@@ -52,9 +56,12 @@ class Indigent {
         isVerifed: json["is_verifed"],
         location: json["location"],
         iin: json["iin"],
-        regionId: json["region_id"],
-        fond: Fond.fromJson(json["fond_id"]),
+        region: json["region_id"] != null
+            ? Region.fromJson(json["region_id"])
+            : null,
+        fond: json["fond_id"] != null ? Fond.fromJson(json["fond_id"]) : null,
         photos: List<Photo>.from(json["photos"].map((x) => Photo.fromJson(x))),
+        dateCreated: DateTime.parse(json["date_created"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -69,8 +76,16 @@ class Indigent {
         "is_verifed": isVerifed,
         "location": location,
         "iin": iin,
-        "region_id": regionId,
+        "region": region,
         "fond": fond.toJson(),
         "photos": List<dynamic>.from(photos.map((x) => x.toJson())),
       };
+
+  String getPhoto(int index) {
+    if (photos.asMap().containsKey(index) &&
+        photos[index].directusFilesId != null) {
+      return config.API_URL + '/assets/' + '${photos[index].directusFilesId}';
+    }
+    return 'https://via.placeholder.com/400';
+  }
 }

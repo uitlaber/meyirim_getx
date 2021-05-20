@@ -8,19 +8,17 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/config.dart' as config;
 import 'package:meyirim/core/service/auth.dart' as auth;
-import 'package:meyirim/models/file.dart';
 import 'package:meyirim/models/project.dart';
 import 'package:meyirim/models/report.dart';
 import 'package:meyirim/partials/pay_modal.dart';
-import 'package:meyirim/repository/file.dart';
 import 'package:meyirim/repository/project.dart';
 import 'package:meyirim/repository/report.dart';
 import 'package:share/share.dart';
-import 'package:mime/mime.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:dio/dio.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:shared_preferences/shared_preferences.dart';
 
 final appController = Get.find<AppController>();
+SharedPreferences prefs = Get.find<SharedPreferences>();
 
 class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {
@@ -56,6 +54,9 @@ MaterialColor createMaterialColor(Color color) {
 
 /// Форматирование суммы
 String formatCur(dynamic amount) {
+  if (amount.runtimeType == RxDouble && amount == 0.0) {
+    return '0 ₸';
+  }
   return new NumberFormat.currency(symbol: '₸', decimalDigits: 0, locale: 'kk')
       .format(amount);
 }
@@ -63,6 +64,13 @@ String formatCur(dynamic amount) {
 String formatDate(DateTime date, {String format: 'dd.MM.yyyy'}) {
   final DateFormat formatter = DateFormat(format);
   return formatter.format(date);
+}
+
+String timeAgo(DateTime date) {
+  if (date == null) return '';
+  // timeago.setLocaleMessages('ru', timeago.RuMessages());
+  timeago.setLocaleMessages('ru_short', timeago.RuShortMessages());
+  return timeago.format(date, locale: 'ru_short');
 }
 
 /// Форматирование цифр
@@ -127,7 +135,7 @@ Future<String> makeProjectUrl(project) async {
 Future shareReport(Report report) async {
   if (appController.isLoading.isFalse) {
     appController.isLoading.value = true;
-    Get.snackbar('Загрузка', '...');
+    Get.snackbar('Загрузка', '');
     var link = await makeReportUrl(report);
     var title = report.title;
     await Share.share('$title $link');

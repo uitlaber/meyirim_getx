@@ -20,11 +20,14 @@ class AppController extends GetxController {
   @override
   Future<void> onInit() async {
     // TODO: implement onInit
+
     if (await checkInternet()) {
+      await auth.userCode();
       if (firstStart.isTrue && checkAuth()) {
         userInfo();
       }
     }
+
     notificationPremission();
     initMessaging();
     super.onInit();
@@ -128,6 +131,10 @@ class AppController extends GetxController {
     print('Logout');
     await auth.logout();
     isLogged.value = false;
+  }
+
+  bool isFond() {
+    return true;
   }
 
   Future<void> userInfo() async {

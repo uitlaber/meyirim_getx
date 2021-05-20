@@ -153,7 +153,7 @@ class IndigentAddScreen extends StatelessWidget {
                               value: controller.value?.value,
                               choiceItems: controller.regionOptions,
                               onChange: (state) {
-                                controller.data.regionId = state.value;
+                                controller.data.id = state.value;
                               }),
                         ),
                         SizedBox(height: 30),

@@ -51,8 +51,10 @@ class ProjectListController extends GetxController with ScrollMixin {
 
   Future<void> fetchProject() async {
     isLoading.value = true;
+
     DirectusListResponse result =
         await _repository.fetchProjects(limit, offset, false);
+
     try {
       var newProjects = List<Project>.from(result.data.map((x) {
         return Project.fromJson(x);

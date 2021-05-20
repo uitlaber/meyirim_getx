@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:meyirim/core/utils.dart';
 
+// ignore: must_be_immutable
 class PaymentSuccessScreen extends StatelessWidget {
   String title = 'Спасибо!';
   String message =

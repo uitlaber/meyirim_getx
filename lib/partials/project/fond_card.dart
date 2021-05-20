@@ -35,8 +35,8 @@ class FondCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(100.0),
                       child: CachedNetworkImage(
                         imageUrl: fond.getAvatar,
-                        width: 50,
-                        height: 50,
+                        width: 35,
+                        height: 35,
                       ),
                     ),
                     SizedBox(
@@ -49,7 +49,7 @@ class FondCard extends StatelessWidget {
                         Text(
                           fond.title,
                           style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 16),
+                              fontWeight: FontWeight.w500, fontSize: 14),
                         ),
                         Text(fond.region.name ?? 'Не выбрано',
                             style: TextStyle(

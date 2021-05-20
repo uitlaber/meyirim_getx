@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meyirim/core/ui.dart';
 import 'package:get/get.dart';
@@ -86,9 +88,9 @@ class LoginScreen extends StatelessWidget {
                                     onPressed: () => controller.login(),
                                     text: 'Войти'.tr),
                           ),
-                          SizedBox(height: 30),
+                          SizedBox(height: 25),
                           new InkWell(
-                              child: new Text('Забыли пароль'.tr,
+                              child: new Text('Забыли пароль?'.tr,
                                   style: TextStyle(
                                       fontSize: 16.0, color: Colors.white)),
                               onTap: () async => await Get.offNamed('/reset')),

@@ -1,4 +1,6 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:get/get.dart';
+import 'package:meyirim/controller/app_controller.dart';
 
 class MyInAppBrowser extends InAppBrowser {
   @override
@@ -9,9 +11,13 @@ class MyInAppBrowser extends InAppBrowser {
 
 class MyChromeSafariBrowser extends ChromeSafariBrowser {
   MyChromeSafariBrowser(browserFallback);
-
+  final appController = Get.find<AppController>();
   @override
   void onOpened() {
+    if (appController.isLoading.isTrue) {
+      appController.isLoading.value = false;
+      Get.back();
+    }
     print("ChromeSafari browser opened");
   }
 

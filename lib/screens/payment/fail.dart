@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meyirim/core/utils.dart';
 import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class PaymentFailScreen extends StatelessWidget {
   String title = 'Произошла ошибка';
   String message = 'Пожалуйста, повторите попытку позже.';

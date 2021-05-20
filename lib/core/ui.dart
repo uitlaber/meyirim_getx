@@ -6,12 +6,13 @@ class UIColor {
   static Color green = HexColor('#41BC73');
   static Color gray = HexColor('#F2F2F7');
   static Color red = HexColor('#FF2D55');
+  static Color aqua = HexColor('#00748A');
   static Color black = HexColor('#182B44');
   static Color textGray = Colors.grey[600];
 }
 
 InputDecoration uiInputDecoration(
-    {hintText: '', EdgeInsetsGeometry padding, Widget suffixIcon: null}) {
+    {hintText: '', EdgeInsetsGeometry padding, Widget suffixIcon}) {
   return InputDecoration(
       suffixIcon: suffixIcon,
       contentPadding:
@@ -38,7 +39,7 @@ Widget uiButton({VoidCallback onPressed, String text}) {
     height: 50.0,
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: UIColor.green,
+        primary: UIColor.aqua,
         onPrimary: Colors.white,
         shadowColor: Colors.white,
         elevation: 0,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:meyirim/partials/donation/list.dart';
 import 'package:meyirim/screens/profile/controller/donations_controller.dart';
 
+// ignore: must_be_immutable
 class DonationsScreen extends StatelessWidget {
   DonationsController controller = Get.put(DonationsController());
   @override

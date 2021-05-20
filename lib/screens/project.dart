@@ -9,6 +9,7 @@ import 'package:meyirim/partials/project/fond_card.dart';
 import 'package:meyirim/partials/project/status.dart';
 import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 
+// ignore: must_be_immutable
 class ProjectScreen extends StatelessWidget {
   YoutubePlayerController _videoPlayerController;
 

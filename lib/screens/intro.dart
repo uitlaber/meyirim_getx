@@ -12,7 +12,10 @@ class IntroScreen extends StatelessWidget {
       backgroundColor: HexColor('#00D7FF'),
       body: Center(
         child: SingleChildScrollView(
-          child: logoWidget,
+          child: AnimatedOpacity(
+              opacity: 1.0,
+              duration: Duration(milliseconds: 500),
+              child: logoWidget),
         ),
       ),
     );
