@@ -57,13 +57,6 @@ class MyApp extends StatelessWidget {
       fallbackLocale: Locale('ru', 'RU'),
       defaultTransition: null,
       getPages: [
-        // //Главная
-        // GetPage(
-        //     name: "/fond/home",
-        //     page: () => FondHomeScreen(),
-        //     transition: Transition.noTransition,
-        //     binding: FondHomeBinding()),
-
         //Главная
         GetPage(
             name: "/home",

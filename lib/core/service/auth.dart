@@ -115,6 +115,13 @@ Future<String> userCode() async {
   return userCode;
 }
 
+Future<void> updatePushToken(token) async {
+  final user_code = await userCode();
+  await sdk
+      .items('install_codes')
+      .updateOne(data: {'token': token}, id: user_code.toString());
+}
+
 Future<void> setReferalCode(String code) async {
   if (await referalCode() != null) return;
   SharedPreferences preferences = await SharedPreferences.getInstance();

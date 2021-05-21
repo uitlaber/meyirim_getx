@@ -116,7 +116,10 @@ class AppController extends GetxController {
       provisional: false,
       sound: true,
     );
-    print(await messaging.getToken());
+
+    messaging.getToken().then((token) async {
+      await auth.updatePushToken(token);
+    });
 
     print('User granted permission: ${settings.authorizationStatus}');
   }
