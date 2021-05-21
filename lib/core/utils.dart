@@ -135,7 +135,7 @@ Future<String> makeProjectUrl(project) async {
 Future shareReport(Report report) async {
   if (appController.isLoading.isFalse) {
     appController.isLoading.value = true;
-    Get.snackbar('Загрузка', '');
+    Get.snackbar('Загрузка'.tr, 'Пожалуйста подаждите'.tr);
     var link = await makeReportUrl(report);
     var title = report.title;
     await Share.share('$title $link');
@@ -146,7 +146,7 @@ Future shareReport(Report report) async {
 Future shareProject(Project project) async {
   if (appController.isLoading.isFalse) {
     appController.isLoading.value = true;
-    Get.snackbar('Загрузка', '...');
+    Get.snackbar('Загрузка'.tr, 'Пожалуйста подаждите'.tr);
     var link = await makeProjectUrl(project);
     var title = project.title;
     await Share.share('$title $link');

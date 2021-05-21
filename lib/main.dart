@@ -28,7 +28,6 @@ import 'core/utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await initServices();
   runApp(MyApp());
 }
@@ -38,15 +37,8 @@ Future<void> initServices() async {
   await Firebase.initializeApp();
   await Get.putAsync<SharedPreferences>(
       () async => await SharedPreferences.getInstance());
-  print('SharedPreferences initialed...');
-
   await Get.putAsync<Directus>(() async => await DirectusAPI().init());
-  print('Directus initialed...');
-
   await Get.putAsync<FirebaseMessaging>(() async => FirebaseMessaging.instance);
-  print('FirebaseMessaging initialed...');
-
-  print('All services started...');
 }
 
 class MyApp extends StatelessWidget {

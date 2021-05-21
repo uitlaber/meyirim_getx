@@ -46,8 +46,7 @@ class ProfileScreen extends StatelessWidget {
                       //   onTap: () {
                       //     appController.logout();
                       //   },
-                      //   child:
-                      //       SvgPicture.asset('assets/icon/edit.svg', width: 31),
+                      //   child: Icon(Icons.more_vert, color: Colors.white),
                       // )
                     ],
                   )
@@ -80,6 +79,33 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+            actions: [
+              PopupMenuButton<String>(
+                icon: Icon(Icons.more_vert, color: Colors.white),
+                onSelected: onSelectedUserMenu,
+                itemBuilder: (BuildContext context) {
+                  if (appController.isLogged.isTrue) {
+                    return [
+                      PopupMenuItem(
+                        value: 'logout',
+                        child: Text('Выход'.tr),
+                      )
+                    ];
+                  } else {
+                    return [
+                      PopupMenuItem(
+                        value: 'login',
+                        child: Text('Войти'.tr),
+                      ),
+                      PopupMenuItem(
+                        value: 'register',
+                        child: Text('Регистрация'.tr),
+                      )
+                    ];
+                  }
+                },
+              )
+            ],
           ),
         ),
         body: SingleChildScrollView(
@@ -89,7 +115,7 @@ class ProfileScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 userDonations(),
-                SizedBox(height: 200),
+                SizedBox(height: 15),
                 feedbackLinks()
                 // if (appController.isLogged.isTrue) SizedBox(height: 200),
                 // if (appController.isLogged.isTrue) forLogged(),
@@ -268,5 +294,27 @@ class ProfileScreen extends StatelessWidget {
         // ),
       ],
     );
+  }
+
+  void onSelectedUserMenu(String choice) async {
+    switch (choice) {
+      case 'logout':
+        {
+          appController.logout();
+        }
+        break;
+
+      case 'login':
+        {
+          Get.toNamed('/login');
+        }
+        break;
+
+      case 'register':
+        {
+          Get.toNamed('/register');
+        }
+        break;
+    }
   }
 }

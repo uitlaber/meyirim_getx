@@ -168,7 +168,7 @@ class _PayModalState extends State<PayModal> {
                           elevation: 0,
                         ),
                         child: Text(
-                          "Оплатить банковской картой",
+                          "Оплатить банковской картой".tr,
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
@@ -188,7 +188,7 @@ class _PayModalState extends State<PayModal> {
     if (!mounted) return;
     if (appController.isLoading.isFalse) {
       appController.isLoading.value = true;
-      Get.snackbar('Загрузка', '...');
+      Get.snackbar('Загрузка'.tr, 'Пожалуйста подаждите'.tr);
     }
     setState(() {
       _isLoading = true;
