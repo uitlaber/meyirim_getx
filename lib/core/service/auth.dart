@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meyirim/controller/app_controller.dart';
@@ -7,6 +6,7 @@ import 'dart:core';
 import 'package:meyirim/core/config.dart' as config;
 import 'package:directus/directus.dart';
 import 'package:meyirim/models/user.dart';
+import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
 
@@ -100,11 +100,20 @@ Future<String> userCode() async {
   }
   try {
     //@Todo Изменить платформу в IOS
+
+    var model = '';
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      model = androidInfo.model;
+    } else if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      model = iosInfo.model;
+    }
+
     final result = await sdk
         .items('install_codes')
-        .createOne({'device_info': androidInfo.model});
+        .createOne({'device_info': model});
     userCode = result.data['id'];
     preferences.setString('user_code', userCode);
     print('Used new user_code: $userCode');

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>874022190017-77nngangrg8i86m8pprcjnup6f06e41b.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.874022190017-77nngangrg8i86m8pprcjnup6f06e41b</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>874022190017-ibeoj4b489qe76na68713jijmopmva3j.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBw2iHzQDAPCyNOfLjUCtHuW27Kx7S51wY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>874022190017</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.beyit.meyirim</string>
+	<key>PROJECT_ID</key>
+	<string>meyirim-ba47c</string>
+	<key>STORAGE_BUCKET</key>
+	<string>meyirim-ba47c.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:874022190017:ios:57c3bfd6f2371752988d40</string>
+</dict>
+</plist>
