@@ -111,9 +111,8 @@ Future<String> userCode() async {
       model = iosInfo.model;
     }
 
-    final result = await sdk
-        .items('install_codes')
-        .createOne({'device_info': model});
+    final result =
+        await sdk.items('install_codes').createOne({'device_info': model});
     userCode = result.data['id'];
     preferences.setString('user_code', userCode);
     print('Used new user_code: $userCode');
@@ -133,12 +132,10 @@ Future<void> updatePushToken(token) async {
 
 Future<void> setReferalCode(String code) async {
   if (await referalCode() != null) return;
-  SharedPreferences preferences = await SharedPreferences.getInstance();
   preferences.setString('referal_code', code);
 }
 
 /// Уникальный код пригласителя пользователя
 Future<String> referalCode() async {
-  SharedPreferences preferences = await SharedPreferences.getInstance();
-  return preferences.get('referal_code');
+  return preferences.getString('referal_code');
 }
