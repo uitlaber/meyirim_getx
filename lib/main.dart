@@ -8,6 +8,7 @@ import 'package:meyirim/binding/home_binding.dart';
 import 'package:meyirim/binding/profile_binding.dart';
 import 'package:meyirim/binding/project_binding.dart';
 import 'package:meyirim/core/messages.dart';
+import 'package:meyirim/repository/message.dart';
 import 'package:meyirim/screens/auth/login.dart';
 import 'package:meyirim/screens/auth/register.dart';
 import 'package:meyirim/screens/auth/reset.dart';
@@ -29,6 +30,8 @@ import 'core/utils.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initServices();
+  Get.lazyPut(() => Messages());
+  await MessageRepository.fetchMessages();
   runApp(MyApp());
 }
 
@@ -51,10 +54,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: createMaterialColor(UIColor.blue),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      translations: Messages(), // your translations
+      translationsKeys: Get.find<Messages>().keys,
+      translations: Get.find<Messages>(),
       locale:
           Locale('ru', 'RU'), // translations will be displayed in that locale
-      fallbackLocale: Locale('ru', 'RU'),
+      fallbackLocale: Locale('kk', 'KZ'),
       defaultTransition: null,
       getPages: [
         //Главная

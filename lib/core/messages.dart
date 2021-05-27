@@ -1,17 +1,8 @@
 import 'package:get/get.dart';
+import 'package:meyirim/repository/message.dart';
 
 class Messages extends Translations {
+  Map<String, Map<String, String>> map;
   @override
-  Map<String, Map<String, String>> get keys => {
-        'ru_RU': {
-          'лента': 'лента',
-          'завершенные': 'завершенные',
-          'отчеты': 'отчеты'
-        },
-        'kk_KZ': {
-          'лента': 'тізім',
-          'завершенные': 'аяқталған',
-          'отчеты': 'отчеттар'
-        }
-      };
+  Map<String, Map<String, String>> get keys => map;
 }
