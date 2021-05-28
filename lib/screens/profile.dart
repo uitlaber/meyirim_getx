@@ -5,6 +5,7 @@ import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/ui.dart';
 import 'package:meyirim/partials/bottom_nav.dart';
 import 'package:meyirim/core/utils.dart';
+import 'package:meyirim/partials/lang_modal.dart';
 import 'package:meyirim/screens/profile/controller/profile_controller.dart';
 import 'package:meyirim/screens/profile/views/donations.dart';
 import 'package:meyirim/screens/profile/views/donations_referal.dart';
@@ -116,7 +117,9 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 userDonations(),
                 SizedBox(height: 15),
-                feedbackLinks()
+                feedbackLinks(),
+                SizedBox(height: 15),
+                localeButton()
                 // if (appController.isLogged.isTrue) SizedBox(height: 200),
                 // if (appController.isLogged.isTrue) forLogged(),
               ],
@@ -126,6 +129,28 @@ class ProfileScreen extends StatelessWidget {
         bottomNavigationBar: BottomNav(currentPage: 2),
       );
     });
+  }
+
+  Widget localeButton() {
+    return Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        child: InkWell(
+          onTap: () => Get.dialog(LangModal()),
+          child: Row(children: [
+            Icon(Icons.language_sharp, color: UIColor.blue, size: 40),
+            SizedBox(
+              width: 10,
+            ),
+            Text('Язык приложения'.tr,
+                style: TextStyle(
+                    color: UIColor.blue,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500)),
+          ]),
+        ));
   }
 
   Widget feedbackLinks() {

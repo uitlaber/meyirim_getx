@@ -151,4 +151,8 @@ class AppController extends GetxController {
       await logout();
     }
   }
+
+  String getLocale() {
+    return Get.locale.toString();
+  }
 }

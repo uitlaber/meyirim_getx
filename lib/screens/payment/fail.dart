@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class PaymentFailScreen extends StatelessWidget {
-  String title = 'Произошла ошибка';
-  String message = 'Пожалуйста, повторите попытку позже.';
+  String title = 'Произошла ошибка'.tr;
+  String message = 'Пожалуйста, повторите попытку позже.'.tr;
 
   @override
   Widget build(BuildContext context) {

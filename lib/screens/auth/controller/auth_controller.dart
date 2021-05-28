@@ -90,12 +90,10 @@ class RegisterController extends GetxController {
     if (form.currentState.validate() && isLoading.isFalse) {
       isLoading.value = true;
       form.currentState.save();
-      print(data.toJson());
       try {
         data.userCode = await auth.userCode();
         await auth.register(data.toJson());
       } catch (e) {
-        print('"${e.message}"');
         String errorMessage = '';
         switch (e.message) {
           case 'Field "email" has to be unique.':

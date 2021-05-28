@@ -19,8 +19,9 @@ class ProjectScreen extends StatelessWidget {
     if (project == null) Get.back();
     SwiperController _swiperController = SwiperController();
 
-    if (project != null && project.videoUrl != null) {
-      var videoId = YoutubePlayerController.convertUrlToId(project.videoUrl);
+    if (project != null && project.getTranslated('video_url') != null) {
+      var videoId = YoutubePlayerController.convertUrlToId(
+          project.getTranslated('video_url'));
       _videoPlayerController = YoutubePlayerController(
         initialVideoId: videoId,
       );
@@ -110,7 +111,7 @@ class ProjectScreen extends StatelessWidget {
                           _videoPlayerController?.pause();
                         }
                       },
-                      itemCount: project.videoUrl != null
+                      itemCount: project.getTranslated('video_url') != null
                           ? project.photos.length + 1
                           : project.photos.length,
                       pagination: new SwiperPagination(),
@@ -124,15 +125,15 @@ class ProjectScreen extends StatelessWidget {
                 Divider(),
                 Padding(
                   padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-                  child: Text(project.title,
+                  child: Text(project.getTranslated('title'),
                       textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                 ),
                 Padding(
                   padding: EdgeInsets.all(10),
-                  child:
-                      Text(project.description, style: TextStyle(fontSize: 16)),
+                  child: Text(project.getTranslated('description'),
+                      style: TextStyle(fontSize: 16)),
                 ),
               ],
             ),

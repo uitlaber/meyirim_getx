@@ -1,4 +1,7 @@
+import 'package:get/get.dart';
+import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/config.dart' as config;
+import 'package:meyirim/models/project_translation.dart';
 import 'dart:convert';
 import 'fond.dart';
 import 'photo.dart';
@@ -14,10 +17,8 @@ class Project {
     this.isFinished,
     this.id,
     this.dateCreated,
-    this.videoUrl,
-    this.title,
+    this.translations,
     this.requiredAmount,
-    this.description,
     this.donationsCount,
     this.photos,
     this.fond,
@@ -27,23 +28,23 @@ class Project {
   bool isFinished;
   int id;
   DateTime dateCreated;
-  dynamic videoUrl;
-  String title;
+  List<ProjectTranslation> translations;
   double requiredAmount;
-  String description;
   int donationsCount;
   double collectedAmount;
   List<Photo> photos;
   Fond fond;
+  final appController = Get.find<AppController>();
 
   factory Project.fromJson(Map<String, dynamic> json) => Project(
         status: json["status"],
         isFinished: json["is_finished"],
         id: json["id"],
         dateCreated: DateTime.parse(json["date_created"]),
-        videoUrl: json["video_url"],
-        title: json["title"],
-        description: json["description"],
+        translations: (json["translations"].length != null)
+            ? List<ProjectTranslation>.from(
+                json["translations"].map((x) => ProjectTranslation.fromJson(x)))
+            : [],
         requiredAmount: double.parse(json["required_amount"]),
         donationsCount: json["donations_count"],
         collectedAmount: double.parse(json["collected_amount"]),
@@ -59,11 +60,9 @@ class Project {
         "is_finished": isFinished,
         "id": id,
         "date_created": dateCreated.toIso8601String(),
-        "video_url": videoUrl,
-        "title": title,
         "required_amount": requiredAmount,
-        "description": description,
         "donations_count": donationsCount,
+        "translations": List<dynamic>.from(translations.map((x) => x.toJson())),
         "photos": List<dynamic>.from(photos.map((x) => x.toJson())),
         "fond": fond.toJson(),
       };
@@ -82,5 +81,12 @@ class Project {
       return config.API_URL + '/assets/' + '${photos[index].directusFilesId}';
     }
     return 'https://via.placeholder.com/400';
+  }
+
+  String getTranslated(String field) {
+    ProjectTranslation translated = this.translations.firstWhere(
+        (ProjectTranslation translation) =>
+            translation.languagesCode == appController.getLocale());
+    return translated.getProp(field);
   }
 }

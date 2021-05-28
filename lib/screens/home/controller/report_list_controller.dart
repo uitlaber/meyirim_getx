@@ -58,6 +58,7 @@ class ReportListController extends GetxController with ScrollMixin {
         return Report.fromJson(x);
       }));
       reports.addAll(newReports);
+      print(result.meta.filterCount);
       total = result.meta.filterCount;
     } catch (e) {
       print(e);

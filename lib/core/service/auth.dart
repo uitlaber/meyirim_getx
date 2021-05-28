@@ -133,6 +133,7 @@ Future<void> updatePushToken(token) async {
 Future<void> setReferalCode(String code) async {
   if (await referalCode() != null) return;
   preferences.setString('referal_code', code);
+  print('REFERAL_CODE set' + code);
 }
 
 /// Уникальный код пригласителя пользователя

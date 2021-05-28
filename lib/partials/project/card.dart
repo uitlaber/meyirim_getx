@@ -139,7 +139,7 @@ class ProjectCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Text(project.title,
+                          Text(project.getTranslated('title'),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(

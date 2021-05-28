@@ -137,7 +137,7 @@ Future shareReport(Report report) async {
     appController.isLoading.value = true;
     Get.snackbar('Загрузка'.tr, 'Пожалуйста подаждите'.tr);
     var link = await makeReportUrl(report);
-    var title = report.title;
+    var title = report.getTranslated('title');
     await Share.share('$title $link');
     appController.isLoading.value = false;
   }
@@ -148,7 +148,7 @@ Future shareProject(Project project) async {
     appController.isLoading.value = true;
     Get.snackbar('Загрузка'.tr, 'Пожалуйста подаждите'.tr);
     var link = await makeProjectUrl(project);
-    var title = project.title;
+    var title = project.getTranslated('title');
     await Share.share('$title $link');
     appController.isLoading.value = false;
   }
@@ -156,17 +156,17 @@ Future shareProject(Project project) async {
 
 Future<String> _createDynamicLink(String link, bool short) async {
   final DynamicLinkParameters parameters = DynamicLinkParameters(
-    uriPrefix: 'https://meyirim.page.link',
+    uriPrefix: config.DEEPLINK_PREFIX,
     link: Uri.parse(link),
     androidParameters: AndroidParameters(
-      packageName: 'com.beyit.meyirim',
+      packageName: config.PACKAGE_NAME,
       minimumVersion: 0,
     ),
     dynamicLinkParametersOptions: DynamicLinkParametersOptions(
       shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
     ),
     iosParameters: IosParameters(
-      bundleId: 'com.beyit.meyirim',
+      bundleId: config.PACKAGE_NAME,
       minimumVersion: '0',
     ),
   );
@@ -197,6 +197,8 @@ void initDynamicLinks() async {
             var project = await projectRepository
                 .findProject(deepLink.queryParameters['id']);
             var userCode = await auth.userCode();
+            print('REFERAL_CODE FROM DEEPLINK:' +
+                deepLink.queryParameters['user_code']);
             if (deepLink.queryParameters['user_code'] != null &&
                 deepLink.queryParameters['user_code'] != userCode) {
               await auth.setReferalCode(deepLink.queryParameters['user_code']);
@@ -208,6 +210,8 @@ void initDynamicLinks() async {
             var report = await reportRepository
                 .findReport(deepLink.queryParameters['id']);
             var userCode = await auth.userCode();
+            print('REFERAL_CODE FROM DEEPLINK:' +
+                deepLink.queryParameters['user_code']);
             if (deepLink.queryParameters['user_code'] != null &&
                 deepLink.queryParameters['user_code'] != userCode) {
               await auth.setReferalCode(deepLink.queryParameters['user_code']);

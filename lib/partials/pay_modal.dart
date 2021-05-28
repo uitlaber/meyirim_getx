@@ -73,7 +73,7 @@ class _PayModalState extends State<PayModal> {
                     SizedBox(height: 15),
                     Container(
                       child: Text(
-                        widget.project.title,
+                        widget.project.getTranslated('title'),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),

@@ -12,7 +12,7 @@ class ProjectRepository {
     try {
       result = await sdk.items('projects').readMany(
           query: Query(
-              fields: ['*.*', 'fond.region_id.*'],
+              fields: ['*.*', 'translations.*', 'fond.region_id.*'],
               limit: limit,
               offset: offset,
               meta: Meta(filterCount: filterCount)),
@@ -21,7 +21,6 @@ class ProjectRepository {
             'is_finished': Filter.eq(isFinished),
           }));
 
-      print(result);
       return result;
     } catch (e) {
       print(e);
@@ -36,7 +35,7 @@ class ProjectRepository {
     try {
       result = await sdk.items('projects').readMany(
             query: Query(
-                fields: ['*.*', 'fond.region_id.*'],
+                fields: ['*.*', 'translations.*', 'fond.region_id.*'],
                 limit: limit,
                 offset: offset,
                 customParams: {'search': query.toLowerCase()},

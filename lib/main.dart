@@ -56,9 +56,8 @@ class MyApp extends StatelessWidget {
       ),
       translationsKeys: Get.find<Messages>().keys,
       translations: Get.find<Messages>(),
-      locale:
-          Locale('ru', 'RU'), // translations will be displayed in that locale
-      fallbackLocale: Locale('kk', 'KZ'),
+      locale: Get.deviceLocale, // translations will be displayed in that locale
+      fallbackLocale: Locale('ru', 'RU'),
       defaultTransition: null,
       getPages: [
         //Главная

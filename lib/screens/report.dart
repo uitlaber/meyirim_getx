@@ -17,8 +17,9 @@ class ReportScreen extends StatelessWidget {
     if (report == null) Get.back();
     SwiperController _swiperController = SwiperController();
 
-    if (report.videoUrl != null) {
-      var videoId = YoutubePlayerController.convertUrlToId(report.videoUrl);
+    if (report.getTranslated('video_url') != null) {
+      var videoId = YoutubePlayerController.convertUrlToId(
+          report.getTranslated('video_url'));
       _videoPlayerController = YoutubePlayerController(
         initialVideoId: videoId,
       );
@@ -106,7 +107,7 @@ class ReportScreen extends StatelessWidget {
                           _videoPlayerController?.pause();
                         }
                       },
-                      itemCount: report.videoUrl != null
+                      itemCount: report.getTranslated('video_url') != null
                           ? report.photos.length + 1
                           : report.photos.length,
                       pagination: new SwiperPagination(),
@@ -120,14 +121,14 @@ class ReportScreen extends StatelessWidget {
                 Divider(),
                 Padding(
                   padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-                  child: Text(report.title,
+                  child: Text(report.getTranslated('title'),
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                 ),
                 Padding(
                   padding: EdgeInsets.all(10),
-                  child:
-                      Text(report.description, style: TextStyle(fontSize: 15)),
+                  child: Text(report.getTranslated('description'),
+                      style: TextStyle(fontSize: 15)),
                 ),
               ],
             ),

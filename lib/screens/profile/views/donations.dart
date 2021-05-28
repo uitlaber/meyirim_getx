@@ -13,7 +13,7 @@ class DonationsScreen extends StatelessWidget {
           iconTheme: IconThemeData(
             color: Colors.white, //change your color here
           ),
-          title: Text('Мои пожертвования '.tr,
+          title: Text('Мои пожертвования'.tr,
               style: TextStyle(color: Colors.white))),
       body: DonationList(controller: controller),
     );

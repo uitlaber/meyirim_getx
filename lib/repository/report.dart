@@ -11,9 +11,11 @@ class ReportRepository {
       result = await sdk.items('reports').readMany(
           query: Query(fields: [
             '*.*',
+            'translations.*',
             'fond.region_id.*',
             'project.photos.*',
             'project.fond.*',
+            'project.translations.*',
             'project.fond.region_id.*'
           ], limit: limit, offset: offset, meta: Meta(filterCount: true)),
           filters: Filters({
@@ -35,6 +37,7 @@ class ReportRepository {
           query: Query(
             fields: [
               '*.*',
+              'translations.*',
               'fond.region_id.*',
               'project.photos.*',
               'project.fond.*',

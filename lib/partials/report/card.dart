@@ -134,7 +134,7 @@ class ReportCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Text(report.title,
+                          Text(report.getTranslated('title'),
                               style: TextStyle(
                                   // fontWeight: FontWeight.bold,
                                   fontSize: 18.0,

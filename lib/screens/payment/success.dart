@@ -4,9 +4,10 @@ import 'package:meyirim/core/utils.dart';
 
 // ignore: must_be_immutable
 class PaymentSuccessScreen extends StatelessWidget {
-  String title = 'Спасибо!';
+  String title = 'Спасибо!'.tr;
   String message =
-      'Благотворительный фонд выражает искреннюю благодарность за вашу помощь.';
+      'Благотворительный фонд выражает искреннюю благодарность за вашу помощь.'
+          .tr;
 
   @override
   Widget build(BuildContext context) {
