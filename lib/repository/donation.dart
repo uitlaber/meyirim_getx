@@ -28,6 +28,7 @@ class DonationRepository {
                 '*',
                 'project_id.*',
                 'project_id.photos.*',
+                'project_id.translations.*',
                 'project_id.fond.*',
                 'project_id.fond.region_id.*'
               ],

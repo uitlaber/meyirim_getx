@@ -54,16 +54,11 @@ Future<User> userInfo() async {
 /// Уникальный код пользователя
 Future<String> userCode() async {
   String userCode;
-  print(appController.isLogged.isTrue);
   if (appController.isLogged.isTrue) {
     try {
       final response = await sdk.client.get(config.API_URL + "/users/me");
-
-      print(response);
       userCode = response.data['data']['user_code'];
-      print(userCode);
       final result = await sdk.items('install_codes').readOne(userCode);
-      print(result.data);
       sdk.client.options.headers['device-code'] = userCode;
       print('Это из базы: $userCode');
       if (userCode != null && userCode.isNotEmpty) {
