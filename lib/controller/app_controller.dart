@@ -7,6 +7,7 @@ import 'package:meyirim/core/service/auth.dart' as auth;
 import 'package:meyirim/core/ui.dart';
 import 'package:meyirim/repository/project.dart';
 import 'package:meyirim/repository/report.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppController extends GetxController {
   RxBool firstStart = true.obs;
@@ -14,6 +15,7 @@ class AppController extends GetxController {
   RxBool isLoading = false.obs;
   Directus sdk = Get.find<Directus>();
   FirebaseMessaging messaging = Get.find<FirebaseMessaging>();
+  SharedPreferences perfs = Get.find<SharedPreferences>();
   DirectusUser user;
   var lastReset;
 
@@ -154,5 +156,17 @@ class AppController extends GetxController {
 
   String getLocale() {
     return Get.locale.toString();
+  }
+
+  Locale getSavedLocale() {
+    final lang = perfs.get('lang');
+    if (lang == 'kz') {
+      return Locale('kk', 'KZ');
+    }
+    return Locale('ru', 'RU');
+  }
+
+  void saveLocale(String lang) {
+    perfs.setString('lang', lang);
   }
 }
