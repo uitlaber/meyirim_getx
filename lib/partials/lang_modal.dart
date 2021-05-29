@@ -33,6 +33,7 @@ class LangModal extends StatelessWidget {
                 ),
                 onPressed: () {
                   Get.updateLocale(Locale('kk', 'KZ'));
+                  appController.saveLocale('kz');
                   Get.back();
                 },
               ),
@@ -49,6 +50,7 @@ class LangModal extends StatelessWidget {
                 ),
                 onPressed: () {
                   Get.updateLocale(Locale('ru', 'RU'));
+                  appController.saveLocale('ru');
                   Get.back();
                 },
               ),

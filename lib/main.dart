@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meyirim/binding/app_binding.dart';
 import 'package:meyirim/binding/home_binding.dart';
 import 'package:meyirim/binding/profile_binding.dart';
 import 'package:meyirim/binding/project_binding.dart';
@@ -23,6 +22,7 @@ import 'package:meyirim/screens/search.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'binding/auth_binding.dart';
 import 'binding/search_binding.dart';
+import 'controller/app_controller.dart';
 import 'core/service/directus.dart';
 import 'core/ui.dart';
 import 'core/utils.dart';
@@ -42,9 +42,12 @@ Future<void> initServices() async {
       () async => await SharedPreferences.getInstance());
   await Get.putAsync<Directus>(() async => await DirectusAPI().init());
   await Get.putAsync<FirebaseMessaging>(() async => FirebaseMessaging.instance);
+  Get.put(AppController());
 }
 
 class MyApp extends StatelessWidget {
+
+  final appController = Get.find<AppController>();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -56,7 +59,7 @@ class MyApp extends StatelessWidget {
       ),
       translationsKeys: Get.find<Messages>().keys,
       translations: Get.find<Messages>(),
-      locale: Get.deviceLocale, // translations will be displayed in that locale
+      locale: appController.getSavedLocale(), // translations will be displayed in that locale
       fallbackLocale: Locale('ru', 'RU'),
       defaultTransition: null,
       getPages: [
@@ -134,7 +137,7 @@ class MyApp extends StatelessWidget {
 
         GetPage(name: "/no_internet", page: () => NoInternetScreen()),
       ],
-      initialBinding: AppBinding(),
+      //initialBinding: AppBinding(),
       initialRoute: "/home",
     );
   }
