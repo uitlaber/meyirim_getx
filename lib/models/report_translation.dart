@@ -9,7 +9,7 @@ String reportTranslationToJson(ReportTranslation data) =>
 class ReportTranslation {
   ReportTranslation({
     this.id,
-    this.projectsId,
+    this.reportsId,
     this.languagesCode,
     this.title,
     this.description,
@@ -17,7 +17,7 @@ class ReportTranslation {
   });
 
   int id;
-  int projectsId;
+  int reportsId;
   String languagesCode;
   String title;
   String description;
@@ -26,7 +26,7 @@ class ReportTranslation {
   factory ReportTranslation.fromJson(Map<String, dynamic> json) =>
       ReportTranslation(
         id: json["id"],
-        projectsId: json["projects_id"],
+        reportsId: json["reports_id"],
         languagesCode: json["languages_code"],
         title: json["title"],
         description: json["description"],
@@ -35,7 +35,7 @@ class ReportTranslation {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "projects_id": projectsId,
+        "reports_id": reportsId,
         "languages_code": languagesCode,
         "title": title,
         "description": description,

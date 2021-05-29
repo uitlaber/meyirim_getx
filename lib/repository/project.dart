@@ -56,7 +56,7 @@ class ProjectRepository {
     try {
       final result = await sdk.items('projects').readOne(id,
           query: Query(
-            fields: ['*.*', 'fond.region_id.*'],
+            fields: ['*.*', 'translations.*', 'fond.region_id.*'],
           ));
       project = Project.fromJson(result.data);
     } catch (e) {

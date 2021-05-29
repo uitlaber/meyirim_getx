@@ -58,7 +58,8 @@ Future<String> userCode() async {
     try {
       final response = await sdk.client.get(config.API_URL + "/users/me");
       userCode = response.data['data']['user_code'];
-      final result = await sdk.items('install_codes').readOne(userCode);
+      // //@TODO Не понятная переменная result
+      // final result = await sdk.items('install_codes').readOne(userCode);
       sdk.client.options.headers['device-code'] = userCode;
       print('Это из базы: $userCode');
       if (userCode != null && userCode.isNotEmpty) {
@@ -74,8 +75,8 @@ Future<String> userCode() async {
 
   if (userCode != null && userCode.isNotEmpty) {
     try {
-      final result = await sdk.items('install_codes').readOne(userCode);
-      print(result.data);
+      // final result = await sdk.items('install_codes').readOne(userCode);
+      // print(result.data);
       print('Used storage user_code: $userCode');
       sdk.client.options.headers['device-code'] = userCode;
       if (appController.isLogged.isTrue) {
@@ -94,8 +95,6 @@ Future<String> userCode() async {
     }
   }
   try {
-    //@Todo Изменить платформу в IOS
-
     var model = '';
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {
@@ -105,7 +104,6 @@ Future<String> userCode() async {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
       model = iosInfo.model;
     }
-
     final result =
         await sdk.items('install_codes').createOne({'device_info': model});
     userCode = result.data['id'];

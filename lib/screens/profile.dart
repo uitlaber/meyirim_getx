@@ -30,15 +30,19 @@ class ProfileScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Профиль',
-                              style: TextStyle(color: Colors.white)),
-                          Text(appController.user.email,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12))
-                        ],
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Профиль'.tr,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(color: Colors.white)),
+                            Text(appController.user.email,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 12))
+                          ],
+                        ),
                       ),
                       SizedBox(
                         width: 10,
@@ -60,22 +64,26 @@ class ProfileScreen extends StatelessWidget {
                         SvgPicture.asset('assets/icon/profile-user.svg',
                             width: 45, height: 45),
                         SizedBox(width: 10),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Войдите или создайте аккаунт'.tr,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16)),
-                            SizedBox(height: 5),
-                            Text('Чтобы не терять свои пожертвование'.tr,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14))
-                          ],
+                        Flexible(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Войдите или создайте аккаунт'.tr,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14)),
+                              SizedBox(height: 5),
+                              Text('Чтобы не терять свои пожертвование'.tr,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 13))
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -177,96 +185,99 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget userDonations() {
-    return Column(
-      children: [
-        InkWell(
-          onTap: () => Get.dialog(new DonationsScreen()),
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            child: IntrinsicHeight(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Мои пожертвование'.tr,
-                          style: TextStyle(
-                              color: UIColor.green,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(height: 10),
-                        Text(formatCur(controller.amount),
+    return Obx(() {
+      return Column(
+        children: [
+          InkWell(
+            onTap: () => Get.dialog(new DonationsScreen()),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              child: IntrinsicHeight(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Мои пожертвование'.tr,
                             style: TextStyle(
-                                fontSize: 21, fontWeight: FontWeight.bold)),
-                      ],
+                                color: UIColor.green,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(height: 10),
+                          Text(formatCur(controller.amount),
+                              style: TextStyle(
+                                  fontSize: 21, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: UIColor.green,
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(10.0),
-                          bottomRight: Radius.circular(10.0),
-                        )),
-                    child: Icon(Icons.chevron_right, color: Colors.white),
-                  )
-                ],
+                    Container(
+                      decoration: BoxDecoration(
+                          color: UIColor.green,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10.0),
+                            bottomRight: Radius.circular(10.0),
+                          )),
+                      child: Icon(Icons.chevron_right, color: Colors.white),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        SizedBox(height: 15),
-        InkWell(
-          onTap: () => Get.dialog(new DonationsReferalScreen()),
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            child: IntrinsicHeight(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Помогли через меня'.tr,
-                          style: TextStyle(
-                              color: UIColor.red, fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(height: 10),
-                        Text(formatCur(controller.referalAmount),
+          SizedBox(height: 15),
+          InkWell(
+            onTap: () => Get.dialog(new DonationsReferalScreen()),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              child: IntrinsicHeight(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Помогли через меня'.tr,
                             style: TextStyle(
-                                fontSize: 21, fontWeight: FontWeight.bold)),
-                      ],
+                                color: UIColor.red,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(height: 10),
+                          Text(formatCur(controller.referalAmount),
+                              style: TextStyle(
+                                  fontSize: 21, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: UIColor.red,
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(10.0),
-                          bottomRight: Radius.circular(10.0),
-                        )),
-                    child: Icon(Icons.chevron_right, color: Colors.white),
-                  )
-                ],
+                    Container(
+                      decoration: BoxDecoration(
+                          color: UIColor.red,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10.0),
+                            bottomRight: Radius.circular(10.0),
+                          )),
+                      child: Icon(Icons.chevron_right, color: Colors.white),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   Widget forLogged() {

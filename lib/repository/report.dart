@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:directus/directus.dart';
 import 'package:meyirim/models/report.dart';
+import 'package:dio/dio.dart';
 
 class ReportRepository {
   final sdk = Get.find<Directus>();
@@ -21,10 +22,8 @@ class ReportRepository {
           filters: Filters({
             'status': Filter.eq('published'),
           }));
-
       return result;
     } catch (e) {
-      print(e);
       result = null;
     }
     return result;
@@ -40,6 +39,7 @@ class ReportRepository {
               'translations.*',
               'fond.region_id.*',
               'project.photos.*',
+              'project.translations.*',
               'project.fond.*',
               'project.fond.region_id.*'
             ],

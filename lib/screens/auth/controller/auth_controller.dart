@@ -7,6 +7,7 @@ import 'package:meyirim/core/service/auth.dart' as auth;
 import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/ui.dart';
 import 'package:meyirim/models/user.dart';
+import 'package:meyirim/screens/profile/controller/profile_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
@@ -29,6 +30,8 @@ class LoginController extends GetxController {
         await appController.userInfo();
         appController.isLogged.value = appController.checkAuth();
         isLoading.value = false;
+        ProfileController profileController = Get.find<ProfileController>();
+        profileController.loadDonatations();
         Get.back();
       }).catchError((e) {
         isLoading.value = false;
