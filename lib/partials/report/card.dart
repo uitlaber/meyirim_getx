@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/utils.dart';
 import 'package:meyirim/models/report.dart';
 import 'package:meyirim/partials/project/fond_card.dart';
@@ -12,6 +13,7 @@ class ReportCard extends StatelessWidget {
   const ReportCard({Key key, @required this.report}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    AppController appController = Get.find<AppController>();
     return InkWell(
       onTap: () => Get.toNamed('/report', arguments: {'report': report}),
       child: Container(
@@ -154,8 +156,12 @@ class ReportCard extends StatelessWidget {
                 padding: EdgeInsets.all(10),
                 actions: [
                   IconButton(
-                      onPressed: () {
-                        shareReport(report);
+                      onPressed: () async {
+                        if (appController.isLoading.isFalse) {
+                          appController.isLoading.value = true;
+                          await shareReport(report);
+                          appController.isLoading.value = false;
+                        }
                       },
                       icon: Icon(
                         Icons.share,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/utils.dart';
 import 'package:get/get.dart';
 
@@ -9,8 +10,12 @@ class BottomNav extends StatelessWidget {
   const BottomNav({Key key, @required this.currentPage}) : super(key: key);
 
   void _onItemTapped(int index) {
+    final appController = Get.find<AppController>();
+    print(appController.isLoading.isTrue);
+    if (appController.isLoading.isTrue) return;
+
     if (currentPage == index) return;
-    print(index);
+
     switch (index) {
       case 0:
         {

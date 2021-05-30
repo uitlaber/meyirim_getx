@@ -62,7 +62,7 @@ class Report {
     if (photos != null && photos.asMap().containsKey(index)) {
       return config.API_URL + '/assets/' + '${photos[index].directusFilesId}';
     }
-    return 'https://via.placeholder.com/400';
+    return config.NO_PHOTO;
   }
 
   String getTranslated(String field) {

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/utils.dart';
 import 'package:meyirim/partials/project/fond_card.dart';
 import 'package:meyirim/partials/project/status.dart';
@@ -16,6 +17,7 @@ class ReportScreen extends StatelessWidget {
     final report = Get.arguments['report'];
     if (report == null) Get.back();
     SwiperController _swiperController = SwiperController();
+    AppController appController = Get.find<AppController>();
 
     if (report.getTranslated('video_url') != null) {
       var videoId = YoutubePlayerController.convertUrlToId(
@@ -44,8 +46,12 @@ class ReportScreen extends StatelessWidget {
                   padding: EdgeInsets.all(10),
                   actions: [
                     IconButton(
-                        onPressed: () {
-                          shareReport(report);
+                        onPressed: () async {
+                          if (appController.isLoading.isFalse) {
+                            appController.isLoading.value = true;
+                            await shareReport(report);
+                            appController.isLoading.value = false;
+                          }
                         },
                         icon: Icon(Icons.share))
                   ],

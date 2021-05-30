@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/ui.dart';
 import 'package:meyirim/core/utils.dart';
 import 'package:meyirim/partials/project/fond_card.dart';
@@ -18,6 +19,7 @@ class ProjectScreen extends StatelessWidget {
     final project = Get.arguments['project'];
     if (project == null) Get.back();
     SwiperController _swiperController = SwiperController();
+    AppController appController = Get.find<AppController>();
 
     if (project != null && project.getTranslated('video_url') != null) {
       var videoId = YoutubePlayerController.convertUrlToId(
@@ -46,8 +48,12 @@ class ProjectScreen extends StatelessWidget {
                   padding: EdgeInsets.all(10),
                   actions: [
                     IconButton(
-                      onPressed: () {
-                        shareProject(project);
+                      onPressed: () async {
+                        if (appController.isLoading.isFalse) {
+                          appController.isLoading.value = true;
+                          await shareProject(project);
+                          appController.isLoading.value = false;
+                        }
                       },
                       icon: Icon(Icons.share),
                       color: UIColor.blue,

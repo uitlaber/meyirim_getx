@@ -5,7 +5,6 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/config.dart' as config;
 import 'package:meyirim/core/service/auth.dart' as auth;
 import 'package:meyirim/models/project.dart';
@@ -17,7 +16,6 @@ import 'package:share/share.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:shared_preferences/shared_preferences.dart';
 
-final appController = Get.find<AppController>();
 SharedPreferences prefs = Get.find<SharedPreferences>();
 
 class HexColor extends Color {
@@ -133,25 +131,19 @@ Future<String> makeProjectUrl(project) async {
 }
 
 Future shareReport(Report report) async {
-  if (appController.isLoading.isFalse) {
-    appController.isLoading.value = true;
-    Get.snackbar('Загрузка'.tr, 'Пожалуйста подаждите'.tr);
-    var link = await makeReportUrl(report);
-    var title = report.getTranslated('title');
-    await Share.share('$title $link');
-    appController.isLoading.value = false;
-  }
+  Get.snackbar('Загрузка'.tr, 'Пожалуйста подаждите'.tr,
+      backgroundColor: Colors.white);
+  var link = await makeReportUrl(report);
+  var title = report.getTranslated('title');
+  await Share.share('$title $link');
 }
 
 Future shareProject(Project project) async {
-  if (appController.isLoading.isFalse) {
-    appController.isLoading.value = true;
-    Get.snackbar('Загрузка'.tr, 'Пожалуйста подаждите'.tr);
-    var link = await makeProjectUrl(project);
-    var title = project.getTranslated('title');
-    await Share.share('$title $link');
-    appController.isLoading.value = false;
-  }
+  Get.snackbar('Загрузка'.tr, 'Пожалуйста подаждите'.tr,
+      backgroundColor: Colors.white);
+  var link = await makeProjectUrl(project);
+  var title = project.getTranslated('title');
+  await Share.share('$title $link');
 }
 
 Future<String> _createDynamicLink(String link, bool short) async {

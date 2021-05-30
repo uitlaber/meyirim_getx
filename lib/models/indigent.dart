@@ -86,6 +86,6 @@ class Indigent {
         photos[index].directusFilesId != null) {
       return config.API_URL + '/assets/' + '${photos[index].directusFilesId}';
     }
-    return 'https://via.placeholder.com/400';
+    return config.NO_PHOTO;
   }
 }

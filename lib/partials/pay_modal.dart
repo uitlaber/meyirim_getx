@@ -188,15 +188,19 @@ class _PayModalState extends State<PayModal> {
     if (!mounted) return;
     if (appController.isLoading.isFalse) {
       appController.isLoading.value = true;
-      Get.snackbar('Загрузка'.tr, 'Пожалуйста подаждите'.tr);
+      Get.snackbar('Загрузка'.tr, 'Пожалуйста подаждите'.tr,
+          backgroundColor: Colors.white);
     }
     setState(() {
       _isLoading = true;
     });
     final sdk = Get.find<Directus>();
-    final response = await sdk.client.post(
-        config.API_URL + "/custom/payment/pay",
-        data: {"id": widget.project.id, "amount": amountTextController.text});
+    final response =
+        await sdk.client.post(config.API_URL + "/custom/payment/pay", data: {
+      "id": widget.project.id,
+      "amount": amountTextController.text,
+      "locale": appController.getLocale()
+    });
 
     final ChromeSafariBrowser browser =
         new MyChromeSafariBrowser(new MyInAppBrowser());

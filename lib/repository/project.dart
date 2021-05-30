@@ -1,6 +1,7 @@
 import 'package:directus/directus.dart';
 import 'package:get/get.dart';
 import 'package:meyirim/models/project.dart';
+import 'package:meyirim/core/config.dart' as config;
 
 class ProjectRepository {
   final sdk = Get.find<Directus>();
@@ -33,15 +34,20 @@ class ProjectRepository {
       {filterCount: true, totalCount: true}) async {
     DirectusListResponse result;
     try {
+      final sdk = Get.find<Directus>();
+      final resultProjectIds = await sdk.client.post(
+          config.API_URL + '/custom/uit/search',
+          data: {'searchQuery': query});
+      print(resultProjectIds.data['data']);
       result = await sdk.items('projects').readMany(
             query: Query(
                 fields: ['*.*', 'translations.*', 'fond.region_id.*'],
                 limit: limit,
                 offset: offset,
-                customParams: {'search': query.toLowerCase()},
                 meta: Meta(totalCount: true, filterCount: true)),
             filters: Filters({
               'status': Filter.eq('published'),
+              'id': Filter.isIn(resultProjectIds.data['data'])
             }),
           );
     } catch (e) {

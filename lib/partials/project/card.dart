@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
+import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/utils.dart';
 import 'package:meyirim/models/project.dart';
 import 'package:meyirim/partials/project/fond_card.dart';
@@ -15,6 +16,7 @@ class ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppController appController = Get.find<AppController>();
     return InkWell(
       onTap: () => Get.toNamed('/project', arguments: {'project': project}),
       child: Container(
@@ -29,8 +31,8 @@ class ProjectCard extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 children: [
                   /**
-                   * Фото
-                   */
+                     * Фото
+                     */
                   AspectRatio(
                     aspectRatio: 3 / 2,
                     child: Hero(
@@ -159,8 +161,12 @@ class ProjectCard extends StatelessWidget {
                 padding: EdgeInsets.all(10),
                 actions: [
                   IconButton(
-                      onPressed: () {
-                        shareProject(project);
+                      onPressed: () async {
+                        if (appController.isLoading.isFalse) {
+                          appController.isLoading.value = true;
+                          await shareProject(project);
+                          appController.isLoading.value = false;
+                        }
                       },
                       icon: Icon(
                         Icons.share,
