@@ -79,7 +79,7 @@ class SearchScreen extends StatelessWidget {
                   ),
                   SizedBox(width: 10),
                   Text(
-                    'Не удалось загрузить проекты',
+                    'Не удалось загрузить проекты'.tr,
                     style: TextStyle(color: HexColor('#999999')),
                   )
                 ],
