@@ -103,10 +103,10 @@ class Rules {
       .build();
 
   static final fullnameValidate =
-      ValidationBuilder().minLength(1, 'Введите фамилию').build();
+      ValidationBuilder().minLength(1, 'Введите фамилию'.tr).build();
 
   static final messageValidate =
-      ValidationBuilder().minLength(50, 'Минимум 50 символов').build();
+      ValidationBuilder().minLength(50, 'Минимум 50 символов'.tr).build();
 
   static final phoneFormatter = new MaskTextInputFormatter(
       mask: '+7 (###) ###-##-##', filter: {"#": RegExp(r'[0-9]')});
