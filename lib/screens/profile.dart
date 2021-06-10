@@ -62,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SvgPicture.asset('assets/icon/profile-user.svg',
-                            width: 45, height: 45),
+                            width: 40, height: 40),
                         SizedBox(width: 10),
                         Flexible(
                           child: Column(
