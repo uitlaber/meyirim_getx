@@ -1,10 +1,12 @@
 import 'dart:ui';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/config.dart' as config;
 import 'package:meyirim/core/service/auth.dart' as auth;
 import 'package:meyirim/models/project.dart';
@@ -16,7 +18,10 @@ import 'package:share/share.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'my_app_browser.dart';
+
 SharedPreferences prefs = Get.find<SharedPreferences>();
+final appController = Get.find<AppController>();
 
 class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {
@@ -76,13 +81,27 @@ String formatNum(dynamic amount) {
   return new NumberFormat.compact(locale: 'kk').format(amount);
 }
 
-void showPayBottomSheet(BuildContext context, Project project) {
-  showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) {
-        return PayModal(project: project);
-      });
+void showPayBottomSheet(BuildContext context, Project project) async {
+  final ChromeSafariBrowser browser =
+      new MyChromeSafariBrowser(new MyInAppBrowser());
+
+  var userCode = await auth.userCode();
+  var referalCode = await auth.referalCode();
+  var locale = appController.getLocale();
+
+  await browser.open(
+      url: Uri.parse(
+          'https://meyirim.com/custom/payform/form?user_code=$userCode&referal_code=$referalCode&project_id=${project.id}&locale=$locale'),
+      options: ChromeSafariBrowserClassOptions(
+          android:
+              AndroidChromeCustomTabsOptions(addDefaultShareMenuItem: false),
+          ios: IOSSafariOptions(barCollapsingEnabled: true)));
+  // showModalBottomSheet(
+  //     context: context,
+  //     backgroundColor: Colors.transparent,
+  //     builder: (ctx) {
+  //       return PayModal(project: project);
+  //     });
 }
 
 class Rules {
