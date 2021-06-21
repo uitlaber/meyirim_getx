@@ -35,7 +35,7 @@ class SearchScreen extends StatelessWidget {
                           controller.searchProjects();
                         },
                         decoration: InputDecoration(
-                          hintText: 'Поиск проектов',
+                          hintText: 'Поиск проектов'.tr,
                           fillColor: Colors.white,
                           filled: true,
                           prefixIcon: Icon(Icons.search, size: 30),
@@ -124,8 +124,7 @@ class SearchScreen extends StatelessWidget {
                   child: Center(
                     child: Container(
                         padding: EdgeInsets.all(10),
-                        child: Text(
-                            'Введите наименование проекта,\n или текст'.tr,
+                        child: Text('Введите наименование проекта или текст'.tr,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -153,7 +152,7 @@ class SearchScreen extends StatelessWidget {
                                     fontSize: 16,
                                     color: UIColor.textGray)),
                             SizedBox(height: 10),
-                            Text('Попробуйте изменить условия поиска.'.tr,
+                            Text('Попробуйте изменить условия поиска'.tr,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,

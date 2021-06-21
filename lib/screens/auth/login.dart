@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
           IconButton(
               icon: Icon(Icons.close, size: 32),
               color: Colors.white,
-              onPressed: () => Get.back())
+              onPressed: () => Navigator.of(Get.overlayContext).pop())
         ],
       ),
       body: SafeArea(

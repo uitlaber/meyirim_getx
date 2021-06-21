@@ -8,6 +8,7 @@ import 'package:meyirim/core/ui.dart';
 import 'package:meyirim/repository/project.dart';
 import 'package:meyirim/repository/report.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:package_info/package_info.dart';
 
 class AppController extends GetxController {
   RxBool firstStart = true.obs;
@@ -18,6 +19,7 @@ class AppController extends GetxController {
   SharedPreferences perfs = Get.find<SharedPreferences>();
   DirectusUser user;
   var lastReset;
+  Map<String, String> info;
 
   @override
   Future<void> onInit() async {
@@ -29,6 +31,17 @@ class AppController extends GetxController {
         userInfo();
       }
     }
+
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    info.addAll({
+      'appName': packageInfo.appName,
+      'packageName': packageInfo.packageName,
+      'version': packageInfo.version,
+      'buildNumber': packageInfo.buildNumber
+    });
+
+    print(info);
 
     notificationPremission();
     initMessaging();

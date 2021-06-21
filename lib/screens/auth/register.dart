@@ -20,7 +20,7 @@ class RegisterScreen extends StatelessWidget {
           IconButton(
               icon: Icon(Icons.close, size: 32),
               color: Colors.white,
-              onPressed: () => Get.back())
+              onPressed: () => Navigator.of(Get.overlayContext).pop())
         ],
       ),
       body: SafeArea(
@@ -103,7 +103,7 @@ class RegisterScreen extends StatelessWidget {
                                   )
                                 : uiButton(
                                     onPressed: () => controller.register(),
-                                    text: 'Регистрация'),
+                                    text: 'Регистрация'.tr),
                           ),
                           SizedBox(height: 30),
                           new InkWell(

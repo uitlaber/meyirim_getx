@@ -20,7 +20,7 @@ class ResetScreen extends StatelessWidget {
           IconButton(
               icon: Icon(Icons.close, size: 32),
               color: Colors.white,
-              onPressed: () => Navigator.pop(context))
+              onPressed: () => Navigator.of(Get.overlayContext).pop())
         ],
       ),
       body: SafeArea(
@@ -57,7 +57,7 @@ class ResetScreen extends StatelessWidget {
                           SizedBox(height: 35),
                           TextFormField(
                               decoration: uiInputDecoration(
-                                  hintText: 'Ваш номер телефона'),
+                                  hintText: 'Введите ваш номер'.tr),
                               validator: Rules.phoneValidate,
                               inputFormatters: [Rules.phoneFormatter],
                               keyboardType: TextInputType.phone,
@@ -80,7 +80,7 @@ class ResetScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 30),
                           new InkWell(
-                              child: new Text('Вспомнили пароль? Войти',
+                              child: new Text('Войти'.tr,
                                   style: TextStyle(
                                     fontSize: 16.0,
                                     color: Colors.white,

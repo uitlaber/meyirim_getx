@@ -32,7 +32,7 @@ class LoginController extends GetxController {
         isLoading.value = false;
         ProfileController profileController = Get.find<ProfileController>();
         profileController.loadDonatations();
-        Get.back();
+        Navigator.of(Get.overlayContext).pop();
       }).catchError((e) {
         isLoading.value = false;
         switch (e.message) {
@@ -119,7 +119,7 @@ class RegisterController extends GetxController {
         await appController.userInfo();
         appController.isLogged.value = appController.checkAuth();
         isLoading.value = false;
-        Get.back();
+        Navigator.of(Get.overlayContext).pop();
       }).catchError((e) {
         isLoading.value = false;
         print(e.message);

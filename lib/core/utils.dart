@@ -150,7 +150,7 @@ Future<String> makeProjectUrl(project) async {
 }
 
 Future shareReport(Report report) async {
-  Get.snackbar('Загрузка'.tr, 'Пожалуйста подаждите'.tr,
+  Get.snackbar('Загрузка'.tr, 'Пожалуйста подождите'.tr,
       backgroundColor: Colors.white);
   var link = await makeReportUrl(report);
   var title = report.getTranslated('title');
@@ -158,7 +158,7 @@ Future shareReport(Report report) async {
 }
 
 Future shareProject(Project project) async {
-  Get.snackbar('Загрузка'.tr, 'Пожалуйста подаждите'.tr,
+  Get.snackbar('Загрузка'.tr, 'Пожалуйста подождите'.tr,
       backgroundColor: Colors.white);
   var link = await makeProjectUrl(project);
   var title = project.getTranslated('title');
