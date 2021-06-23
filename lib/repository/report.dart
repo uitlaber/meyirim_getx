@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:directus/directus.dart';
 import 'package:meyirim/models/report.dart';
-import 'package:dio/dio.dart';
 
 class ReportRepository {
   final sdk = Get.find<Directus>();

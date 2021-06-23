@@ -11,7 +11,6 @@ import 'package:meyirim/core/config.dart' as config;
 import 'package:meyirim/core/service/auth.dart' as auth;
 import 'package:meyirim/models/project.dart';
 import 'package:meyirim/models/report.dart';
-import 'package:meyirim/partials/pay_modal.dart';
 import 'package:meyirim/repository/project.dart';
 import 'package:meyirim/repository/report.dart';
 import 'package:share/share.dart';
@@ -117,7 +116,7 @@ class Rules {
       .build();
 
   static final passwordValidate = ValidationBuilder()
-      .required('Введите пароль')
+      .required('Введите пароль'.tr)
       .minLength(6, 'Минимум 6 символов'.tr)
       .build();
 
@@ -179,6 +178,7 @@ Future<String> _createDynamicLink(String link, bool short) async {
     iosParameters: IosParameters(
       bundleId: config.PACKAGE_NAME,
       minimumVersion: '0',
+      appStoreId: config.APPSTORE_ID,
     ),
   );
 
@@ -199,35 +199,47 @@ void initDynamicLinks() async {
 
   FirebaseDynamicLinks.instance.onLink(
       onSuccess: (PendingDynamicLinkData dynamicLink) async {
-    final Uri deepLink = dynamicLink?.link;
+    final Uri deepLink = dynamicLink.link;
 
     if (deepLink != null) {
-      if (deepLink.queryParameters['target'] != null) {
+      if (deepLink.queryParameters.containsKey('target')) {
         switch (deepLink.queryParameters['target']) {
           case 'project':
-            var project = await projectRepository
-                .findProject(deepLink.queryParameters['id']);
-            var userCode = await auth.userCode();
-            print('REFERAL_CODE FROM DEEPLINK:' +
-                deepLink.queryParameters['user_code']);
-            if (deepLink.queryParameters['user_code'] != null &&
-                deepLink.queryParameters['user_code'] != userCode) {
-              await auth.setReferalCode(deepLink.queryParameters['user_code']);
+            if (deepLink.queryParameters.containsKey('id') &&
+                deepLink.queryParameters['id'] != null) {
+              try {
+                var project = await projectRepository
+                    .findProject(deepLink.queryParameters['id']);
+                var userCode = await auth.userCode();
+                if (deepLink.queryParameters.containsKey('user_code') &&
+                    deepLink.queryParameters['user_code'] != userCode) {
+                  await auth
+                      .setReferalCode(deepLink.queryParameters['user_code']);
+                }
+                Get.toNamed('/project', arguments: {'project': project});
+              } catch (e) {
+                print(e);
+              }
             }
-            Get.toNamed('/project', arguments: {'project': project});
             break;
 
           case 'report':
-            var report = await reportRepository
-                .findReport(deepLink.queryParameters['id']);
-            var userCode = await auth.userCode();
-            print('REFERAL_CODE FROM DEEPLINK:' +
-                deepLink.queryParameters['user_code']);
-            if (deepLink.queryParameters['user_code'] != null &&
-                deepLink.queryParameters['user_code'] != userCode) {
-              await auth.setReferalCode(deepLink.queryParameters['user_code']);
+            if (deepLink.queryParameters.containsKey('id') &&
+                deepLink.queryParameters['id'] != null) {
+              try {
+                var report = await reportRepository
+                    .findReport(deepLink.queryParameters['id']);
+                var userCode = await auth.userCode();
+                if (deepLink.queryParameters['user_code'] != null &&
+                    deepLink.queryParameters['user_code'] != userCode) {
+                  await auth
+                      .setReferalCode(deepLink.queryParameters['user_code']);
+                }
+                Get.toNamed('/project', arguments: {'report': report});
+              } catch (e) {
+                print(e);
+              }
             }
-            Get.toNamed('/report', arguments: {'report': report});
             break;
         }
       }
@@ -244,38 +256,53 @@ void initDynamicLinks() async {
 
   final PendingDynamicLinkData data =
       await FirebaseDynamicLinks.instance.getInitialLink();
-  final Uri deepLink = data?.link;
+  final Uri deepLink = data.link;
 
   if (deepLink != null) {
-    if (deepLink.queryParameters['target'] != null) {
-      print(deepLink.queryParameters);
-      print(deepLink.queryParameters['id'].runtimeType);
+    if (deepLink.queryParameters.containsKey('target')) {
       switch (deepLink.queryParameters['target']) {
         case 'project':
-          var project =
-              projectRepository.findProject(deepLink.queryParameters['id']);
-          var userCode = await auth.userCode();
-          if (deepLink.queryParameters['user_code'] != null &&
-              deepLink.queryParameters['user_code'] != userCode) {
-            await auth.setReferalCode(deepLink.queryParameters['user_code']);
+          if (deepLink.queryParameters.containsKey('id') &&
+              deepLink.queryParameters['id'] != null) {
+            try {
+              var project =
+              await projectRepository.findProject(deepLink.queryParameters['id']);
+              var userCode = await auth.userCode();
+              if (deepLink.queryParameters.containsKey('user_code') &&
+                  deepLink.queryParameters['user_code'] != userCode) {
+                await auth
+                    .setReferalCode(deepLink.queryParameters['user_code']);
+              }
+              Get.toNamed('/project', arguments: {'project': project});
+            } catch (e) {
+              print(e);
+            }
           }
-          Get.toNamed('/project', arguments: {'project': project});
           break;
 
         case 'report':
-          var report =
-              await reportRepository.findReport(deepLink.queryParameters['id']);
-          var userCode = await auth.userCode();
-          if (deepLink.queryParameters['user_code'] != null &&
-              deepLink.queryParameters['user_code'] != userCode) {
-            await auth.setReferalCode(deepLink.queryParameters['user_code']);
+          if (deepLink.queryParameters.containsKey('id') &&
+              deepLink.queryParameters['id'] != null) {
+            try {
+              var report = await reportRepository
+                  .findReport(deepLink.queryParameters['id']);
+              var userCode = await auth.userCode();
+              if (deepLink.queryParameters['user_code'] != null &&
+                  deepLink.queryParameters['user_code'] != userCode) {
+                await auth
+                    .setReferalCode(deepLink.queryParameters['user_code']);
+              }
+              Get.toNamed('/project', arguments: {'report': report});
+            } catch (e) {
+              print(e);
+            }
           }
-          Get.toNamed('/project', arguments: {'report': report});
           break;
       }
     }
 
-    if (deepLink.queryParameters['page'] != null) {
+    if (deepLink.queryParameters.containsKey('page') &&
+        deepLink.queryParameters['page'] != null) {
       Get.toNamed(deepLink.queryParameters['page']);
     }
   }

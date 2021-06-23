@@ -6,3 +6,4 @@ const String WHATSAPP_URL = 'https://wa.me/77023031100';
 const String TELEGRAM_URL = 'https://telegram.me/meyirim_app';
 const String DEEPLINK_PREFIX = 'https://meyirim.page.link';
 const String PACKAGE_NAME = 'com.beyit.meyirim';
+const String APPSTORE_ID = '1552159319';
