@@ -199,7 +199,7 @@ void initDynamicLinks() async {
 
   FirebaseDynamicLinks.instance.onLink(
       onSuccess: (PendingDynamicLinkData dynamicLink) async {
-    final Uri deepLink = dynamicLink.link;
+    final Uri deepLink = dynamicLink?.link;
 
     if (deepLink != null) {
       if (deepLink.queryParameters.containsKey('target')) {
@@ -256,7 +256,7 @@ void initDynamicLinks() async {
 
   final PendingDynamicLinkData data =
       await FirebaseDynamicLinks.instance.getInitialLink();
-  final Uri deepLink = data.link;
+  final Uri deepLink = data?.link;
 
   if (deepLink != null) {
     if (deepLink.queryParameters.containsKey('target')) {
