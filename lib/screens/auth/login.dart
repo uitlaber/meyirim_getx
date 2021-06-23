@@ -58,11 +58,13 @@ class LoginScreen extends StatelessWidget {
                           )),
                           SizedBox(height: 35),
                           TextFormField(
-                              decoration: uiInputDecoration(hintText: 'E-mail'),
-                              validator: Rules.emailValidate,
-                              keyboardType: TextInputType.emailAddress,
+                              decoration: uiInputDecoration(
+                                  hintText: 'Введите ваш номер'.tr),
+                              validator: Rules.phoneValidate,
+                              inputFormatters: [Rules.phoneFormatter],
+                              keyboardType: TextInputType.phone,
                               onSaved: (String value) {
-                                controller.data.email = value;
+                                controller.data.phone = value;
                               }),
                           SizedBox(height: 30),
                           TextFormField(

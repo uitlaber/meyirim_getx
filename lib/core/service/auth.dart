@@ -32,8 +32,15 @@ Future<void> logout() async {
   }
 }
 
-Future<void> login(String email, String password) async {
-  await sdk.auth.login(email: email, password: password);
+Future<void> login(String phone, String password) async {
+  try {
+    var result = await sdk.client
+        .post(config.API_URL + '/custom/auth/getphone', data: {'phone': phone});
+    await sdk.auth.login(email: result.data['email'], password: password);
+  } catch (e) {
+    Get.snackbar('Ошибка'.tr, 'Номер не зарегистрирован'.tr,
+        backgroundColor: Colors.redAccent, colorText: Colors.white);
+  }
 }
 
 Future<DirectusResponse<DirectusUser>> register(data) async {

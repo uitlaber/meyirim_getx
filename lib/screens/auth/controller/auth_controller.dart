@@ -4,6 +4,7 @@ import 'package:directus/directus.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:meyirim/core/service/auth.dart' as auth;
+import 'package:meyirim/core/config.dart' as config;
 import 'package:meyirim/controller/app_controller.dart';
 import 'package:meyirim/core/ui.dart';
 import 'package:meyirim/models/user.dart';
@@ -26,7 +27,7 @@ class LoginController extends GetxController {
     if (form.currentState.validate() && isLoading.isFalse) {
       isLoading.value = true;
       form.currentState.save();
-      await auth.login(data.email, data.password).then((value) async {
+      await auth.login(data.phone, data.password).then((value) async {
         await appController.userInfo();
         appController.isLogged.value = appController.checkAuth();
         isLoading.value = false;
@@ -44,6 +45,10 @@ class LoginController extends GetxController {
             Get.snackbar('Ошибка'.tr, 'Введен неверный e-mail или пароль'.tr,
                 backgroundColor: Colors.redAccent, colorText: Colors.white);
             break;
+          case 'phone not found':
+            Get.snackbar('Ошибка'.tr, 'Номер не зарегистрирован'.tr,
+                backgroundColor: Colors.redAccent, colorText: Colors.white);
+            break;
           default:
             Get.snackbar('Ошибка'.tr, 'Ошибка при авторизации'.tr,
                 backgroundColor: Colors.redAccent, colorText: Colors.white);
@@ -55,11 +60,11 @@ class LoginController extends GetxController {
 }
 
 class _LoginData {
-  String email;
+  String phone;
   String password;
 
   Map<String, dynamic> toJson() => {
-        "email": email,
+        "phone": phone,
         "password": password,
       };
 }
