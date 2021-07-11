@@ -16,6 +16,7 @@ class ProjectRepository {
               fields: ['*.*', 'translations.*', 'fond.region_id.*'],
               limit: limit,
               offset: offset,
+              sort: ['-date_created'],
               meta: Meta(filterCount: filterCount)),
           filters: Filters({
             'status': Filter.eq('published'),
@@ -44,6 +45,7 @@ class ProjectRepository {
                 fields: ['*.*', 'translations.*', 'fond.region_id.*'],
                 limit: limit,
                 offset: offset,
+                sort: ['-date_created'],
                 meta: Meta(totalCount: true, filterCount: true)),
             filters: Filters({
               'status': Filter.eq('published'),

@@ -34,6 +34,7 @@ class DonationRepository {
               ],
               limit: limit,
               offset: offset,
+              sort: ['-date_created'],
               meta: Meta(filterCount: filterCount)),
           filters: Filters(filter));
     } catch (e) {

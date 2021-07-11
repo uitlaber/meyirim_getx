@@ -22,23 +22,24 @@ class ProjectStatus extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Wrap(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('нужно'.tr,
-                          style: TextStyle(
-                              color: HexColor('#B2B3B2'), fontSize: 14)),
-                      Text(formatCur(project.requiredAmount),
-                          style: TextStyle(
-                              color: HexColor('#FF5959'),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600)),
-                    ],
-                  )
-                ],
-              ),
+              if (project.requiredAmount > 0)
+                Wrap(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('нужно'.tr,
+                            style: TextStyle(
+                                color: HexColor('#B2B3B2'), fontSize: 14)),
+                        Text(formatCur(project.requiredAmount),
+                            style: TextStyle(
+                                color: HexColor('#FF5959'),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600)),
+                      ],
+                    )
+                  ],
+                ),
               Wrap(
                 children: [
                   Column(
